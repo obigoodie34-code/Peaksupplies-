@@ -179,7 +179,6 @@ section{padding:88px 48px}
     <a href="#order">Order</a>
   </div>
   <button class="nav-btn" onclick="document.getElementById('order').scrollIntoView({behavior:'smooth'})">Get Started</button>
-  <button class="nav-btn" style="border-color:rgba(168,180,188,.3);color:#6B7280" onclick="document.getElementById('admin-section').style.display='block';document.getElementById('admin-section').scrollIntoView({behavior:'smooth'})">Admin</button>
   <button class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
 </nav>
 
@@ -187,7 +186,6 @@ section{padding:88px 48px}
   <a href="#hero" onclick="closeMenu()">Home</a>
   <a href="#ai-compare" onclick="closeMenu()">AI Compare</a>
   <a href="#order" onclick="closeMenu()">Order</a>
-  <button onclick="closeMenu();document.getElementById('admin-section').style.display='block';document.getElementById('admin-section').scrollIntoView({behavior:'smooth'})">Admin</button>
 </div>
 
 <section id="hero" class="hero">
@@ -224,10 +222,10 @@ section{padding:88px 48px}
       </div>
     </div>
     <div class="ai-results" id="ai-results" style="display:none">
-      <div class="ai-result-item"><span class="ai-result-label">China Cost (1688/DHGate)</span><span class="ai-result-value" id="china-cost">—</span></div>
-      <div class="ai-result-item"><span class="ai-result-label">Shipping + Duties</span><span class="ai-result-value" id="shipping-cost">—</span></div>
-      <div class="ai-result-item"><span class="ai-result-label">Delivery (NG)</span><span class="ai-result-value" id="delivery-cost">—</span></div>
-      <div class="ai-result-item"><span class="ai-result-label">Optimal Profit Margin</span><span class="ai-result-value" id="profit-margin">—</span></div>
+      <span id="china-cost" style="display:none">—</span>
+      <span id="shipping-cost" style="display:none">—</span>
+      <span id="delivery-cost" style="display:none">—</span>
+      <span id="profit-margin" style="display:none">—</span>
       <div class="ai-result-final" id="final-price">—</div>
     </div>
   </div>
@@ -240,12 +238,12 @@ section{padding:88px 48px}
   <h2 class="sec-title">AI Order Processing</h2>
   <div class="order-wrap">
     <div class="order-ai-panel">
-      <div class="ai-sourcing-status" id="sourcing-status">
+      <button class="ai-sourcing-status" id="sourcing-status" onclick="document.getElementById('order-form').dispatchEvent(new Event('submit',{cancelable:true,bubbles:true}))" style="width:100%;text-align:left;cursor:pointer;background:var(--d3);border:1px solid var(--border);transition:all .25s;font-family:'Inter',sans-serif;color:var(--text)">
         <div style="display:flex;align-items:center;gap:12px">
           <div class="spinner" id="sourcing-spinner" style="display:none"></div>
-          <span id="sourcing-text">Ready for AI sourcing</span>
+          <span id="sourcing-text">🤖 Start AI Sourcing</span>
         </div>
-      </div>
+      </button>
       <div id="admin-pricing" style="display:none;background:rgba(76,175,129,.1);padding:16px;border-radius:8px;font-size:13px;color:var(--muted);line-height:1.8">
         <strong style="color:var(--green)">Admin View:</strong><br/>
         China: ₦285k | Total Cost: ₦338.5k<br/>Sell: ₦385k | Profit: ₦46.5k
@@ -323,6 +321,22 @@ function toggleMenu(){
   document.getElementById('mobile-menu').classList.toggle('open');
   document.getElementById('hamburger').classList.toggle('open');
 }
+// Secret admin access via URL hash
+window.addEventListener('hashchange', function(){
+  if(window.location.hash === '#admin'){
+    document.getElementById('admin-section').style.display = 'block';
+    document.getElementById('admin-section').scrollIntoView({behavior:'smooth'});
+    history.replaceState(null,'',window.location.pathname);
+  }
+});
+window.addEventListener('load', function(){
+  if(window.location.hash === '#admin'){
+    document.getElementById('admin-section').style.display = 'block';
+    document.getElementById('admin-section').scrollIntoView({behavior:'smooth'});
+    history.replaceState(null,'',window.location.pathname);
+  }
+});
+
 function closeMenu(){
   document.getElementById('mobile-menu').classList.remove('open');
   document.getElementById('hamburger').classList.remove('open');
@@ -331,32 +345,69 @@ function closeMenu(){
 async function runAIEstimate(){
   const btn = document.querySelector('.ai-estimate-btn');
   const results = document.getElementById('ai-results');
+  const product = document.getElementById('product-name').value.trim();
+  const qty = parseInt(document.getElementById('product-qty').value)||1;
+  if(!product){ alert('Please enter a product name.'); return; }
   btn.classList.add('loading');
   btn.textContent = 'AI Analyzing...';
   results.style.display = 'block';
-  await new Promise(r=>setTimeout(r,2000));
-  const product = document.getElementById('product-name').value.toLowerCase();
-  const qty = parseInt(document.getElementById('product-qty').value)||1;
-  const chinaPrice = mockChinaPrices[Object.keys(mockChinaPrices).find(k=>product.includes(k.split(' ')[0]))]||{price:250000*qty,source:'1688.com'};
-  const shipping = 45000*qty;
-  const delivery = 8500;
-  const totalCost = chinaPrice.price+shipping+delivery;
-  const competitorPrice = mockCompetitorPrices[Object.keys(mockCompetitorPrices).find(k=>product.includes(k.split(' ')[0]))]||totalCost*1.8;
-  let profitMargin = 0.25;
-  let finalPrice = totalCost*(1+profitMargin);
-  if(finalPrice>competitorPrice*0.85){
-    profitMargin = Math.max(0.10,(competitorPrice*0.82-totalCost)/totalCost);
-    finalPrice = totalCost*(1+profitMargin);
+  document.getElementById('final-price').innerHTML = '<div style="font-size:13px;color:#6B7280">Searching suppliers and comparing prices...</div>';
+
+  try{
+    const prompt = "You are a pricing engine for Peak Supplies Nigeria. Product: \""+product+"\" × "+qty+"\n"
+      +"STEP 1: Find real supplier price on DHgate or 1688.com in USD. Convert to NGN at 1 USD=1620 NGN.\n"
+      +"STEP 2: Estimate shipping China→Nigeria per unit in NGN (small: 3000-5000, medium: 6000-10000, large: 12000-25000).\n"
+      +"STEP 3: totalCostPerUnit = supplierPriceNGN + shippingNGN. totalCost = totalCostPerUnit × "+qty+".\n"
+      +"STEP 4: Find real prices on jumia.com.ng and jiji.ng. lowestLocalPrice = minimum found.\n"
+      +"STEP 5: recommendedMargin = highest value in [10,15,20,25,30,35] where totalCostPerUnit*(1+M/100) < lowestLocalPrice. If none, use 10.\n"
+      +"STEP 6: finalPrice = totalCostPerUnit*(1+recommendedMargin/100) rounded to nearest 500. MUST be > totalCostPerUnit.\n"
+      +"savings = round((1 - finalPrice/lowestLocalPrice)*100).\n"
+      +"Return ONLY valid JSON: {\"supplierSource\":\"\",\"supplierPriceNGN\":0,\"shippingPerUnit\":0,\"totalCostPerUnit\":0,\"totalCost\":0,\"jumiaPrice\":0,\"jijiPrice\":0,\"lowestLocalPrice\":0,\"recommendedMargin\":0,\"finalPrice\":0,\"savings\":0}";
+
+    const res = await fetch("https://peak-backend-3cnc.onrender.com/api/ai",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({prompt, maxTokens:600})
+    });
+
+    if(!res.ok) throw new Error("Backend error");
+    const data = await res.json();
+    const tb = data.content?.find(b=>b.type==="text");
+    if(!tb) throw new Error("No response");
+    const ai = JSON.parse(tb.text.replace(/```json|```/g,"").trim());
+
+    // JS verification
+    if(ai.totalCostPerUnit && ai.lowestLocalPrice){
+      let bestM=10;
+      for(const m of [35,30,25,20,15,10]){
+        const p=Math.round((ai.totalCostPerUnit*(1+m/100))/500)*500;
+        if(p<ai.lowestLocalPrice){bestM=m;ai.finalPrice=p;ai.recommendedMargin=m;break;}
+      }
+      if(ai.finalPrice<=ai.totalCostPerUnit) ai.finalPrice=Math.round(ai.totalCostPerUnit*1.10/500)*500;
+      ai.savings=Math.round((1-ai.finalPrice/ai.lowestLocalPrice)*100);
+    }
+
+    // Update hidden fields (for admin)
+    document.getElementById('china-cost').textContent = '₦'+(ai.supplierPriceNGN||0).toLocaleString();
+    document.getElementById('shipping-cost').textContent = '₦'+(ai.shippingPerUnit||0).toLocaleString();
+    document.getElementById('delivery-cost').textContent = '₦'+(ai.totalCost||0).toLocaleString();
+    document.getElementById('profit-margin').textContent = (ai.recommendedMargin||0)+'%';
+
+    // Show only final price to client
+    document.getElementById('final-price').innerHTML =
+      'Your Price: <strong>₦'+Math.round(ai.finalPrice).toLocaleString()+'</strong>'
+      +' <div class="ai-savings"><span>⭐</span> '+(ai.savings||0)+'% cheaper than Jumia/Jiji</div>'
+      +'<div style="font-size:11px;color:#6B7280;margin-top:6px">Sourced from '+ai.supplierSource+' · Delivery 10-15 business days</div>';
+
+    btn.classList.remove('loading');
+    btn.textContent = '✅ Updated!';
+
+  }catch(e){
+    document.getElementById('final-price').innerHTML = '<div style="font-size:12px;color:#e05555">Could not fetch price. Backend may be waking up — try again in 30 seconds.</div>';
+    btn.classList.remove('loading');
+    btn.textContent = 'Retry AI Quote';
+    console.warn('AI estimate error:', e);
   }
-  document.getElementById('china-cost').textContent = '₦'+chinaPrice.price.toLocaleString();
-  document.getElementById('shipping-cost').textContent = '₦'+shipping.toLocaleString();
-  document.getElementById('delivery-cost').textContent = '₦'+delivery.toLocaleString();
-  document.getElementById('profit-margin').textContent = (profitMargin*100).toFixed(1)+'%';
-  document.getElementById('final-price').innerHTML =
-    'Final Price: ₦'+Math.round(finalPrice).toLocaleString()+
-    ' <div class="ai-savings"><span>⭐</span> '+((1-finalPrice/competitorPrice)*100).toFixed(0)+'% cheaper than Jumia</div>';
-  btn.classList.remove('loading');
-  btn.textContent = '✅ Updated!';
 }
 
 document.getElementById('order-form').addEventListener('submit', async function(e){
@@ -484,7 +535,7 @@ function renderAdmTab(){
         +'<div class="adm-order-top">'
         +'<div><div class="adm-fl">Reference</div><div class="adm-fv" style="color:#A8B4BC">'+ref+'</div><div class="adm-fv" style="font-size:11px">'+(o.date||"")+'</div></div>'
         +'<div><div class="adm-fl">Items</div><div class="adm-fv" style="font-size:11px">'+(o.items||"—")+'</div></div>'
-        +'<div><div class="adm-fl">Amount</div><div class="adm-fv" style="font-family:Playfair Display,serif;font-size:16px;color:#A8B4BC">'+fmtP(o.total||o.amount)+'</div></div>'
+        +'<div><div class="adm-fl">Amount</div><div class="adm-fv" style="font-family:Playfair Display,serif;font-size:16px;color:#A8B4BC">'+fmtP(o.total||o.amount)+'</div><div class="adm-fv" style="font-size:10px;color:#6B7280;margin-top:4px">'+(o.aiSourcingCost?'Cost: '+fmtP(o.aiSourcingCost)+' | Profit: '+fmtP((o.total||o.amount)-(o.aiSourcingCost||0)):'')+'</div></div>'
         +'</div>'
         +'<div class="adm-order-btm">'
         +'<span class="adm-badge '+(isPaid?"paid":"pending")+'">'+(isPaid?"✓ Paid":"⏳ Pending")+'</span>'
