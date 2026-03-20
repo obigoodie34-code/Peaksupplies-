@@ -516,6 +516,7 @@ footer{background:var(--d0);padding:56px 48px 36px;border-top:1px solid var(--bo
   </div>
   <div style="display:flex;gap:8px;align-items:center">
     <button class="nav-btn" onclick="goTo('order')">Place Order</button>
+    <button class="nav-btn" style="background:transparent;border-color:rgba(255,255,255,.2);color:var(--muted)" onclick="showPage('admin-page')">Admin</button>
     <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
@@ -890,19 +891,25 @@ function goTo(id){
   setTimeout(()=>{ const el=document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth'}); },150);
 }
 function showPage(id){
-  document.getElementById("main-site").style.display = "none";
-  document.getElementById("main-nav").style.display  = "none";
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-  if(id==="admin-page") renderAdminPage();
-  if(id==="track-page") renderTrackPage();
-
-  window.scrollTo(0,0);
+  try{
+    var ms = document.getElementById("main-site");
+    var mn = document.getElementById("main-nav");
+    if(ms) ms.style.display = "none";
+    if(mn) mn.style.display = "none";
+    document.querySelectorAll(".page").forEach(function(p){ p.classList.remove("active"); });
+    var target = document.getElementById(id);
+    if(target) target.classList.add("active");
+    if(id==="admin-page") renderAdminPage();
+    if(id==="track-page") renderTrackPage();
+    window.scrollTo(0,0);
+  }catch(e){ console.error("showPage error:",e); }
 }
 function showMainSite(){
-  document.getElementById("main-site").style.display = "";
-  document.getElementById("main-nav").style.display  = "";
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  var ms = document.getElementById("main-site");
+  var mn = document.getElementById("main-nav");
+  if(ms) ms.style.display = "";
+  if(mn) mn.style.display = "";
+  document.querySelectorAll(".page").forEach(function(p){ p.classList.remove("active"); });
 }
 function toggleMobileMenu(){
   const m=document.getElementById("mobile-menu");
@@ -1761,6 +1768,137 @@ function saveSocialLinks(){
   renderFooterSocials();
   const msg = document.getElementById("soc-msg");
   if(msg){ msg.textContent="✓ Saved — links updated"; setTimeout(()=>msg.textContent="",2500); }
+}
+
+
+// ═══════════════════════════════════════
+// ADMIN PANEL
+// ═══════════════════════════════════════
+var adminAuthed = false;
+var adminTab = "orders";
+
+function renderAdminPage(){
+  var lw = document.getElementById("admin-login-wrap");
+  var dd = document.getElementById("admin-dashboard");
+  if(!adminAuthed){
+    if(dd) dd.style.display="none";
+    if(lw){
+      lw.innerHTML = "";
+      var loginDiv = document.createElement("div");
+      loginDiv.style.cssText = "background:var(--d2);border:1px solid var(--border);padding:44px;max-width:380px;margin:80px auto;position:relative;overflow:hidden";
+      loginDiv.innerHTML = "<div style='position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--gold),transparent)'></div>"
+        + "<div style='font-family:Cormorant Garamond,serif;font-size:26px;color:var(--gold);margin-bottom:5px'>Admin Access</div>"
+        + "<p style='font-size:12px;color:var(--muted);margin-bottom:24px'>Enter your password to access the dashboard.</p>"
+        + "<div class='field'><label style='display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px'>Password</label>"
+        + "<input class='inp' id='admin-pw' type='password' placeholder='Enter admin password'/></div>"
+        + "<div id='admin-pw-err'></div>"
+        + "<div style='display:flex;gap:10px;margin-top:14px'>"
+        + "<button class='sub-btn' style='margin-top:0' onclick='doAdminLogin()'>Login</button>"
+        + "<button class='reset-btn' onclick='showMainSite()'>Back to Site</button>"
+        + "</div>";
+      lw.appendChild(loginDiv);
+      var pwInput = document.getElementById("admin-pw");
+      if(pwInput) pwInput.addEventListener("keydown", function(e){ if(e.key==="Enter") doAdminLogin(); });
+    }
+  } else {
+    if(lw) lw.innerHTML="";
+    renderAdminDashboard();
+  }
+}
+
+async function doAdminLogin(){
+  var pwEl = document.getElementById("admin-pw");
+  var pw = pwEl ? pwEl.value : "";
+  var hash = await hashPw(pw);
+  if(hash === ADMIN_HASH){
+    adminAuthed = true;
+    if(sb){
+      try{
+        var res = await sb.from("orders").select("*").order("created_at",{ascending:false}).limit(200);
+        if(res.data && res.data.length){
+          var mapped = res.data.map(function(o){
+            return {ref:o.ref,name:o.name,email:o.email,phone:o.phone,items:o.items,shipping:o.shipping,shipFee:o.ship_fee,intlFee:o.intl_fee,address:o.address,notes:o.notes,date:o.date,status:o.status,itemCost:o.item_cost||0,total:o.total||0,trackingNum:o.tracking_num||"",carrier:o.carrier||"",localCarrier:o.local_carrier||"",localTrackNum:o.local_track_num||"",aiAnalysis:o.ai_analysis||""};
+          });
+          localStorage.setItem("ps_orders", JSON.stringify(mapped));
+        }
+      }catch(e){ console.warn("Supabase load error:", e); }
+    }
+    renderAdminPage();
+  } else {
+    var err = document.getElementById("admin-pw-err");
+    if(err) err.innerHTML = '<div class="f-err">Incorrect password.</div>';
+  }
+}
+
+function renderAdminDashboard(){
+  var orders = getOrders();
+  var pays = getPays();
+  var revenue = orders.filter(function(o){ return o.status==="paid"; }).reduce(function(s,o){ return s+(o.total||0); },0);
+  var spent = pays.reduce(function(s,p){ return s+(p.amountNGN||0); },0);
+  var dd = document.getElementById("admin-dashboard");
+  if(!dd) return;
+  dd.style.display = "block";
+
+  var profitColor = revenue-spent>=0 ? "var(--green)" : "var(--red)";
+  var marginVal = revenue>0 ? Math.round(((revenue-spent)/revenue)*100) : 0;
+  var marginColor = marginVal>=20 ? "green" : "white";
+
+  dd.innerHTML = '<div class="admin-header"><div><div class="admin-title">Peak Supplies — Admin</div><div class="admin-sub">Full business dashboard</div></div><button class="reset-btn" onclick="showMainSite()">Exit Admin</button></div>'
+    + '<div class="admin-stats">'
+    + '<div class="a-stat"><div class="a-stat-n">'+orders.length+'</div><div class="a-stat-l">Total Orders</div></div>'
+    + '<div class="a-stat"><div class="a-stat-n">'+orders.filter(function(o){return o.status==="paid";}).length+'</div><div class="a-stat-l">Paid</div></div>'
+    + '<div class="a-stat"><div class="a-stat-n" style="font-size:20px">'+fmt(revenue)+'</div><div class="a-stat-l">Revenue</div></div>'
+    + '<div class="a-stat"><div class="a-stat-n" style="font-size:20px;color:'+profitColor+'">'+fmt(revenue-spent)+'</div><div class="a-stat-l">Net Profit</div></div>'
+    + '</div>'
+    + '<div style="background:var(--d2);border:1px solid var(--border);padding:22px;margin-bottom:22px;position:relative;overflow:hidden"><div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--green),transparent)"></div>'
+    + '<div style="font-family:Cormorant Garamond,serif;font-size:20px;color:var(--green);margin-bottom:4px">Profit &amp; Loss</div>'
+    + '<div class="pl-grid">'
+    + '<div class="pl-card"><div class="pl-label">Gross Revenue</div><div class="pl-val gold">'+fmt(revenue)+'</div></div>'
+    + '<div class="pl-card"><div class="pl-label">Supplier Spend</div><div class="pl-val red">'+fmt(spent)+'</div></div>'
+    + '<div class="pl-card"><div class="pl-label">Net Profit</div><div class="pl-val '+(revenue-spent>=0?"green":"red")+'">'+fmt(revenue-spent)+'</div></div>'
+    + '<div class="pl-card"><div class="pl-label">Margin %</div><div class="pl-val '+marginColor+'">'+marginVal+'%</div></div>'
+    + '</div></div>'
+    + '<div class="admin-tabs" id="admin-tabs-row"></div>'
+    + '<div id="admin-tab-content"></div>';
+
+  // Build tabs using createElement to avoid quote issues
+  var tabsRow2 = document.getElementById("admin-tabs-row");
+  if(tabsRow2){
+    tabsRow2.innerHTML = "";
+    ["orders","contacts","estimator","shipping","payments","settings"].forEach(function(t){
+      var btn = document.createElement("button");
+      btn.className = "admin-tab" + (adminTab===t ? " active" : "");
+      btn.textContent = t.charAt(0).toUpperCase() + t.slice(1);
+      btn.onclick = function(){ switchAdminTab(t); };
+      tabsRow2.appendChild(btn);
+    });
+  }
+  renderAdminTab();
+}
+
+function switchAdminTab(tab){
+  adminTab = tab;
+  var rows = document.querySelectorAll(".admin-tab");
+  rows.forEach(function(t){ t.classList.toggle("active", t.textContent.toLowerCase()===tab); });
+  renderAdminTab();
+}
+
+function renderAdminTab(){
+  var content = document.getElementById("admin-tab-content");
+  if(!content) return;
+  if(adminTab==="orders")    renderOrdersTab(content);
+  if(adminTab==="contacts")  renderContactsTab(content);
+  if(adminTab==="estimator") renderEstimatorTab(content);
+  if(adminTab==="shipping")  renderShippingTab(content);
+  if(adminTab==="payments")  renderPaymentsTab(content);
+  if(adminTab==="settings")  renderSettingsTab(content);
+}
+
+function updateCostCalc(ref,val,shipFee,intlFee){
+  var cost = parseFloat(val)||0;
+  var total = cost+(shipFee||0)+(intlFee||0);
+  var el = document.getElementById("cost-calc-"+ref);
+  if(el) el.innerHTML = cost>0 ? 'Total = <strong style="color:var(--gold)">'+fmt(total)+'</strong>' : "";
 }
 
 // ═══════════════════════════════════════
