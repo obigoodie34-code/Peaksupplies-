@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Peak Supplies — Cheaper Than Jumia, Jiji & Konga</title>
+<meta name="description" content="Peak Supplies sources products directly from Chinese manufacturers. AI-powered pricing beats Jumia, Jiji & Konga by 20-50%. Instant payment links, real-time sourcing from 1688/DHgate."/>
+<meta property="og:title" content="Peak Supplies — AI Sourcing. Guaranteed Cheaper."/>
+<meta property="og:description" content="AI finds cheapest China prices + auto profit optimization. Always undercuts Jumia/Jiji. Delivered anywhere in Nigeria."/>
+<meta property="og:type" content="website"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta property="og:image" content="https://obigoodie34-code.github.io/Peaksupplies-/og-image.png"/>
+<meta property="og:url" content="https://obigoodie34-code.github.io/Peaksupplies-/"/>
+<meta name="theme-color" content="#0C0C0E"/>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230C0C0E'/><text y='72' x='50' text-anchor='middle' font-size='60' font-family='serif' fill='%23A8B4BC'>P</text></svg>"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#A8B4BC;--gold-l:#C8D4DA;
+  --d0:#0C0C0E;--d1:#111318;--d2:#16191F;--d3:#1C2028;
+  --text:#D8DDE6;--muted:#6B7280;
+  --border:rgba(168,180,188,0.15);
+  --green:#4caf81;--red:#e05555;--blue:#6495ed;
+  --silver:#A8B4BC;--silver-l:#C8D4DA;--silver-d:#7A8994;
+}
+html{scroll-behavior:smooth}
+a,button{cursor:pointer}
+body{background:var(--d0);color:var(--text);font-family:'Inter',sans-serif;overflow-x:hidden}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:18px 48px;background:rgba(10,10,10,0.96);backdrop-filter:blur(12px);border-bottom:1px solid rgba(168,180,188,0.08)}
+.logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--silver)}
+.logo span{color:var(--text);font-weight:400}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--silver)}
+.nav-btn{font-family:'Inter',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:10px 22px;background:transparent;border:1px solid var(--silver);color:var(--silver);cursor:pointer;transition:all .25s}
+.nav-btn:hover{background:var(--silver);color:var(--d0)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text);transition:all .3s}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+.mobile-menu{display:none;position:fixed;inset:0;z-index:199;background:rgba(10,10,10,0.98);flex-direction:column;align-items:center;justify-content:center;gap:28px}
+.mobile-menu.open{display:flex}
+.mobile-menu a,.mobile-menu button{font-family:'Playfair Display',serif;font-size:22px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);text-decoration:none;background:none;border:none;cursor:pointer}
+.mobile-menu a:hover,.mobile-menu button:hover{color:var(--silver)}
+
+.hero{min-height:100vh;display:flex;align-items:center;padding:140px 48px 80px;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 70% 55% at 72% 38%,rgba(168,180,188,.05),transparent 65%),radial-gradient(ellipse 35% 35% at 15% 78%,rgba(168,180,188,.025),transparent 55%)}
+.hero-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(168,180,188,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(168,180,188,.04) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse 85% 85% at 50% 50%,black,transparent);-webkit-mask-image:radial-gradient(ellipse 85% 85% at 50% 50%,black,transparent)}
+.hero-body{position:relative;z-index:2;max-width:700px}
+.badge{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--border);padding:5px 16px;margin-bottom:32px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--silver)}
+.badge::before{content:'';width:20px;height:1px;background:var(--silver)}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(44px,6.5vw,82px);font-weight:400;line-height:1.05;letter-spacing:-.5px;margin-bottom:24px}
+.hero h1 em{font-style:italic;color:var(--silver)}
+.hero-sub{font-size:15px;color:var(--muted);line-height:1.9;max-width:460px;margin-bottom:40px;font-weight:300}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn-g{background:var(--silver);color:var(--d0);padding:14px 30px;font-family:'Inter',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;font-weight:600;border:none;cursor:pointer;transition:all .25s}
+.btn-g:hover{background:var(--silver-l);transform:translateY(-2px)}
+.btn-ghost{background:transparent;color:var(--text);padding:14px 30px;font-family:'Inter',sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;border:1px solid rgba(255,255,255,.15);cursor:pointer;transition:all .25s}
+.btn-ghost:hover{border-color:var(--silver);color:var(--silver)}
+.hero-stats{position:absolute;right:48px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:40px;z-index:2}
+.stat-n{font-family:'Playfair Display',serif;font-size:48px;font-weight:600;color:var(--silver);line-height:1;text-align:right}
+.stat-l{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:4px;text-align:right}
+
+section{padding:88px 48px}
+.sec-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--silver);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.sec-label::before{content:'';width:26px;height:1px;background:var(--silver)}
+.sec-title{font-family:'Playfair Display',serif;font-size:clamp(30px,4vw,52px);font-weight:400;line-height:1.1}
+.rule{height:1px;background:linear-gradient(to right,transparent,rgba(168,180,188,0.2),transparent)}
+
+.ai-compare{background:var(--d1)}
+.ai-estimator{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:start;margin-top:48px}
+.ai-input-group{position:sticky;top:120px}
+.ai-inputs{display:flex;flex-direction:column;gap:12px}
+.ai-input{width:100%;background:var(--d0);border:1px solid rgba(255,255,255,.07);color:var(--text);padding:14px 16px;font-size:13px;border-radius:8px;outline:none;transition:border-color .2s;font-family:'Inter',sans-serif}
+.ai-input:focus{border-color:var(--silver)}
+.ai-input::placeholder{color:#3a3f48}
+.ai-estimate-btn{width:100%;background:var(--green);color:var(--d0);padding:16px;font-weight:600;letter-spacing:2px;text-transform:uppercase;border:none;border-radius:8px;cursor:pointer;transition:all .25s;font-size:12px;font-family:'Inter',sans-serif}
+.ai-estimate-btn:hover{background:#45a070;transform:translateY(-2px)}
+.ai-estimate-btn.loading{opacity:.7;cursor:wait}
+.ai-results{background:var(--d2);border:1px solid var(--border);border-radius:12px;padding:28px;overflow:hidden;position:relative}
+.ai-results::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(to right,var(--green),#45a070,var(--green))}
+.ai-result-item{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:14px}
+.ai-result-item:last-child{border-bottom:none}
+.ai-result-label{font-weight:500}
+.ai-result-value{font-family:'Playfair Display',serif;font-size:20px;font-weight:600}
+.ai-result-final{font-size:16px;color:var(--green);font-weight:600;margin-top:16px;padding:16px;background:rgba(76,175,129,.1);border-radius:8px;border:1px solid rgba(76,175,129,.2)}
+.ai-savings{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--green);margin-top:8px}
+
+.order-section{background:var(--d1)}
+.order-wrap{margin-top:48px;display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:start}
+.order-ai-panel{background:var(--d2);border:1px solid var(--border);border-radius:12px;padding:28px}
+.ai-sourcing-status{padding:16px;border-radius:8px;margin-bottom:20px;border:1px solid var(--border)}
+.ai-sourcing-loading{background:var(--d3);border-color:var(--border)}
+.ai-sourcing-complete{background:rgba(76,175,129,.1);border-color:rgba(76,175,129,.3)}
+.ai-sourcing-error{background:rgba(224,85,85,.1);border-color:rgba(224,85,85,.3)}
+
+.field{margin-bottom:14px}
+.field label{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:7px;font-family:'JetBrains Mono',monospace}
+.items-list{display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
+.item-row{display:grid;grid-template-columns:1fr 70px 34px;gap:8px;align-items:center}
+.rm-btn{width:34px;height:34px;background:transparent;border:1px solid rgba(220,80,80,.2);color:#cc5555;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;border-radius:4px}
+.rm-btn:hover{background:rgba(220,80,80,.08);border-color:#cc5555}
+.add-item-btn{background:transparent;border:1px dashed rgba(168,180,188,.3);color:var(--silver);padding:9px;width:100%;font-family:'Inter',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;margin-bottom:4px;border-radius:4px}
+.add-item-btn:hover{border-color:var(--silver);background:rgba(168,180,188,.04)}
+.sub-btn{width:100%;background:var(--silver);color:var(--d0);padding:14px;font-family:'Inter',sans-serif;font-size:12px;letter-spacing:2.5px;text-transform:uppercase;font-weight:600;border:none;cursor:pointer;transition:all .25s;margin-top:16px;border-radius:4px}
+.sub-btn:hover{background:var(--silver-l);transform:translateY(-1px)}
+.f-err{font-size:12px;color:var(--red);margin-top:10px;padding:10px;background:rgba(224,85,85,.07);border:1px solid rgba(224,85,85,.2);border-radius:4px}
+
+.spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,.2);border-top-color:var(--silver);border-radius:50%;animation:spin .8s linear infinite;display:inline-block;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.success-box{background:var(--d2);border:1px solid var(--border);padding:48px 36px;text-align:center;position:relative;overflow:hidden;border-radius:12px}
+.success-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--green),transparent)}
+.s-icon{font-size:40px;margin-bottom:16px}
+.s-title{font-family:'Playfair Display',serif;font-size:30px;color:var(--green);margin-bottom:8px}
+.s-sub{font-size:13px;color:var(--muted);line-height:1.8;max-width:320px;margin:0 auto 18px}
+.s-ref{font-size:10px;letter-spacing:2px;color:var(--silver);text-transform:uppercase;margin-bottom:20px;font-family:'JetBrains Mono',monospace}
+.s-items{text-align:left;border:1px solid var(--border);padding:16px 20px;margin-bottom:22px;border-radius:8px}
+.s-items h4{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--silver);margin-bottom:10px}
+.s-row{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.s-row:last-child{border-bottom:none}
+.s-row span{color:var(--text);font-weight:500}
+.s-row strong{color:var(--silver);font-weight:600}
+
+.wa-float{position:fixed;bottom:28px;right:28px;z-index:999;width:56px;height:56px;background:#1a1a1a;border-radius:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;box-shadow:0 4px 20px rgba(0,0,0,.5);transition:all .25s;border:1px solid rgba(255,255,255,.08);overflow:hidden}
+.wa-float::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,#1f8c4e,#128c4e 60%,#075e40)}
+.wa-float svg{position:relative;z-index:1;width:28px;height:28px;fill:#fff}
+.wa-float:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.6)}
+
+@media(max-width:768px){
+  nav{padding:18px 24px}
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  .hero{padding:120px 24px 80px}
+  .hero-stats{display:none}
+  section{padding:64px 24px}
+  .ai-estimator,.order-wrap{grid-template-columns:1fr;gap:32px}
+  .ai-input-group{position:static}
+}
+
+/* ── ADMIN PANEL ── */
+.admin-section{background:#080a0d;border-top:1px solid rgba(168,180,188,.08);padding:72px 48px;position:relative}
+.admin-section::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(168,180,188,.3),transparent)}
+.admin-login-box{max-width:420px;margin:0 auto;background:linear-gradient(145deg,#111318,#0e1015);border:1px solid rgba(168,180,188,.12);padding:44px;position:relative;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.6)}
+.admin-login-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,#A8B4BC,transparent)}
+.adm-login-title{font-family:'Playfair Display',serif;font-size:28px;color:#A8B4BC;margin-bottom:4px}
+.adm-login-sub{font-size:11px;color:#6B7280;margin-bottom:28px;letter-spacing:1px}
+.adm-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;padding-bottom:18px;border-bottom:1px solid rgba(168,180,188,.08)}
+.adm-header-title{font-family:'Playfair Display',serif;font-size:28px;color:#A8B4BC}
+.adm-header-sub{font-size:11px;color:#6B7280;margin-top:3px;letter-spacing:1px}
+.adm-exit-btn{padding:9px 20px;background:transparent;border:1px solid rgba(168,180,188,.15);color:#6B7280;font-family:'Inter',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s}
+.adm-exit-btn:hover{border-color:#A8B4BC;color:#A8B4BC}
+.adm-stats-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:24px}
+.adm-stat{background:linear-gradient(135deg,#13161c,#111318);border:1px solid rgba(168,180,188,.1);padding:16px;position:relative;overflow:hidden;transition:border-color .2s;text-align:center}
+.adm-stat:hover{border-color:rgba(168,180,188,.25)}
+.adm-stat-profit{border-color:rgba(76,175,129,.2)!important}
+.adm-stat-icon{font-size:18px;margin-bottom:6px}
+.adm-stat-n{font-family:'Playfair Display',serif;font-size:22px;color:#A8B4BC;line-height:1;margin-bottom:4px}
+.adm-stat-l{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#6B7280}
+.admin-tabs{display:flex;gap:2px;margin-bottom:22px;background:rgba(168,180,188,.06);padding:3px;border-radius:6px;width:fit-content}
+.admin-tab{padding:9px 18px;font-family:'Inter',sans-serif;font-size:11px;letter-spacing:1px;cursor:pointer;transition:all .25s;background:transparent;border:none;color:#6B7280;border-radius:4px}
+.admin-tab.active{background:rgba(168,180,188,.12);color:#A8B4BC;font-weight:600}
+.admin-tab:hover:not(.active){color:#A8B4BC}
+.adm-toolbar{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.adm-search{flex:1;min-width:200px;background:#13161c;border:1px solid rgba(168,180,188,.1);color:#D8DDE6;padding:10px 14px;font-size:12px;font-family:'Inter',sans-serif;outline:none;border-radius:4px}
+.adm-search:focus{border-color:#A8B4BC}
+.adm-filters{display:flex;gap:4px;flex-wrap:wrap}
+.adm-filter-btn{padding:7px 12px;background:transparent;border:1px solid rgba(168,180,188,.1);color:#6B7280;font-family:'Inter',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;border-radius:3px;transition:all .2s}
+.adm-filter-btn.active,.adm-filter-btn:hover{background:rgba(168,180,188,.1);color:#A8B4BC;border-color:rgba(168,180,188,.3)}
+.adm-export-btn{padding:8px 16px;background:rgba(168,180,188,.08);border:1px solid rgba(168,180,188,.2);color:#A8B4BC;font-family:'Inter',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;border-radius:3px;white-space:nowrap;transition:all .2s}
+.adm-export-btn:hover{background:rgba(168,180,188,.15)}
+.adm-empty{padding:40px;text-align:center;color:#6B7280;background:#13161c;border:1px solid rgba(168,180,188,.08);font-size:13px}
+.adm-order{background:linear-gradient(135deg,#13161c,#111318);border:1px solid rgba(168,180,188,.08);margin-bottom:8px;overflow:hidden;transition:border-color .2s;border-radius:4px}
+.adm-order:hover{border-color:rgba(168,180,188,.2)}
+.adm-order.paid{border-left:3px solid #4caf81}
+.adm-order.pending{border-left:3px solid #f0a500}
+.adm-order.approved{border-left:3px solid #6495ed}
+.adm-order.cancelled{border-left:3px solid #e05555;opacity:.55}
+.adm-order-top{display:grid;grid-template-columns:1.2fr 1.5fr 1.5fr 1.2fr 1.2fr;gap:14px;padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.04)}
+.adm-fl{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#6B7280;margin-bottom:4px;font-family:'JetBrains Mono',monospace}
+.adm-fv{font-size:12px;color:#D8DDE6;line-height:1.5}
+.adm-order-btm{padding:10px 20px;background:rgba(0,0,0,.2);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.adm-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;border-radius:3px;font-weight:600}
+.adm-badge.paid{background:rgba(76,175,129,.12);border:1px solid rgba(76,175,129,.25);color:#4caf81}
+.adm-badge.pending{background:rgba(240,165,0,.12);border:1px solid rgba(240,165,0,.25);color:#f0a500}
+.adm-badge.approved{background:rgba(100,149,237,.12);border:1px solid rgba(100,149,237,.25);color:#6495ed}
+.adm-badge.cancelled{background:rgba(224,85,85,.12);border:1px solid rgba(224,85,85,.25);color:#e05555}
+.adm-btn{padding:7px 14px;font-family:'Inter',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .2s;border:none;border-radius:3px;font-weight:500}
+.adm-btn-approve{background:linear-gradient(135deg,#4caf81,#3d9469);color:#000;font-weight:700;box-shadow:0 3px 10px rgba(76,175,129,.2)}
+.adm-btn-approve:hover{transform:translateY(-1px);box-shadow:0 5px 14px rgba(76,175,129,.3)}
+.adm-btn-track{background:rgba(100,149,237,.1);border:1px solid rgba(100,149,237,.25);color:#6495ed}
+.adm-btn-track:hover{background:rgba(100,149,237,.18)}
+.adm-btn-revoke{background:transparent;border:1px solid rgba(224,85,85,.3);color:#e05555}
+.adm-btn-revoke:hover{background:rgba(224,85,85,.08);border-color:#e05555}
+.adm-btn-wa{background:rgba(76,175,129,.08);border:1px solid rgba(76,175,129,.2);color:#4caf81}
+.adm-profit-row{font-size:10px;color:#6B7280;font-family:'JetBrains Mono',monospace;margin-top:3px}
+.adm-profit-row span{color:#4caf81}
+.adm-clients-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.adm-client-card{background:linear-gradient(135deg,#13161c,#111318);border:1px solid rgba(168,180,188,.1);padding:22px;border-radius:4px;transition:border-color .2s}
+.adm-client-card:hover{border-color:rgba(168,180,188,.25)}
+.adm-client-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,rgba(168,180,188,.15),rgba(168,180,188,.05));border:1px solid rgba(168,180,188,.2);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:20px;color:#A8B4BC;margin-bottom:12px}
+.adm-client-name{font-size:14px;font-weight:600;margin-bottom:4px}
+.adm-client-info{font-size:11px;color:#6B7280;margin-bottom:2px}
+.adm-client-stats{display:flex;justify-content:space-between;margin-top:14px;padding-top:14px;border-top:1px solid rgba(168,180,188,.08)}
+.adm-fin-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.adm-fin-card{background:linear-gradient(135deg,#13161c,#111318);border:1px solid rgba(168,180,188,.1);padding:20px;border-radius:4px}
+.adm-fin-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#6B7280;margin-bottom:8px}
+.adm-fin-val{font-family:'Playfair Display',serif;font-size:26px;color:#A8B4BC}
+.adm-fin-val.green{color:#4caf81}
+.adm-fin-val.red{color:#e05555}
+.adm-fin-val.gold{color:#f0a500}
+.adm-pay-row{display:grid;grid-template-columns:1.5fr 1.5fr 1fr 1fr;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px}
+.adm-settings-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.adm-settings-card{background:linear-gradient(135deg,#13161c,#111318);border:1px solid rgba(168,180,188,.1);padding:24px;border-radius:4px}
+.adm-settings-title{font-size:13px;font-weight:600;margin-bottom:18px;color:#A8B4BC}
+.adm-field{margin-bottom:12px}
+.adm-field label{display:block;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#6B7280;margin-bottom:5px;font-family:'JetBrains Mono',monospace}
+.adm-inp{width:100%;background:#080a0d;border:1px solid rgba(168,180,188,.1);color:#D8DDE6;padding:10px 12px;font-size:12px;font-family:'Inter',sans-serif;outline:none;border-radius:3px;transition:border-color .2s}
+.adm-inp:focus{border-color:#A8B4BC}
+.adm-save-btn{width:100%;padding:11px;background:rgba(168,180,188,.1);border:1px solid rgba(168,180,188,.2);color:#A8B4BC;font-family:'Inter',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;margin-top:4px;border-radius:3px}
+.adm-save-btn:hover{background:rgba(168,180,188,.18)}
+@media(max-width:900px){.adm-order-top{grid-template-columns:1fr 1fr 1fr}.adm-settings-grid{grid-template-columns:1fr}}
+@media(max-width:768px){.admin-section{padding:48px 20px}.adm-stats-grid{grid-template-columns:repeat(3,1fr)}.adm-order-top{grid-template-columns:1fr 1fr}.adm-fin-grid{grid-template-columns:1fr 1fr}}
+  .admin-section{padding:48px 20px}
+  .adm-stats-grid{grid-template-columns:1fr 1fr}
+}
+
+.agreement-box{background:var(--d3);border:1px solid rgba(168,180,188,.12);padding:12px 14px;margin-bottom:12px;max-height:none;overflow-y:visible;font-size:9px;color:#6B7280;line-height:1.7;border-radius:4px}
+.agreement-box::-webkit-scrollbar{width:3px}
+.agreement-box::-webkit-scrollbar-thumb{background:rgba(168,180,188,.2);border-radius:2px}
+.agreement-check{display:flex;align-items:flex-start;gap:8px;margin-bottom:12px;font-size:11px;color:#6B7280;cursor:pointer}
+.agreement-check input{margin-top:2px;cursor:pointer;accent-color:#A8B4BC;flex-shrink:0}
+
+.track-section{background:var(--d1);padding:88px 48px}
+.track-box{max-width:500px;margin:32px auto 0}
+.track-input-row{display:flex;gap:10px;margin-bottom:20px}
+.track-result{background:var(--d2);border:1px solid var(--border);border-radius:8px;padding:24px;display:none;position:relative;overflow:hidden}
+.track-result::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--silver),transparent)}
+.track-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:13px}
+.track-row:last-child{border-bottom:none}
+.track-label{color:#6B7280}
+.track-val{color:var(--text);font-weight:500;text-align:right;max-width:60%}
+.track-status{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;border-radius:3px}
+.track-status.paid{background:rgba(76,175,129,.1);border:1px solid rgba(76,175,129,.3);color:#4caf81}
+.track-status.pending{background:rgba(240,165,0,.1);border:1px solid rgba(240,165,0,.3);color:#f0a500}
+.track-status.approved{background:rgba(100,149,237,.1);border:1px solid rgba(100,149,237,.3);color:#6495ed}
+.track-status.cancelled{background:rgba(224,85,85,.1);border:1px solid rgba(224,85,85,.3);color:#e05555}
+.track-err{font-size:12px;color:#e05555;margin-top:8px;display:none}
+@media(max-width:768px){.track-section{padding:64px 24px}.track-input-row{flex-direction:column}}
+
+.about-section{background:var(--d0);padding:88px 48px}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;margin-top:40px}
+.about-text p{font-size:14px;color:#6B7280;line-height:1.9;margin-bottom:16px;font-weight:300}
+.about-stats{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:28px}
+.about-stat{padding:18px;background:var(--d2);border:1px solid var(--border)}
+.about-stat-n{font-family:'Playfair Display',serif;font-size:32px;color:var(--silver);line-height:1}
+.about-stat-l{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#6B7280;margin-top:4px}
+.about-features{display:flex;flex-direction:column;gap:16px}
+.about-feat{display:flex;gap:14px;align-items:flex-start;padding:16px;background:var(--d2);border:1px solid var(--border)}
+.about-feat-icon{font-size:22px;flex-shrink:0;margin-top:2px}
+.about-feat-title{font-size:13px;font-weight:600;margin-bottom:4px}
+.about-feat-text{font-size:12px;color:#6B7280;line-height:1.7}
+
+.testimonials-section{background:var(--d1);padding:88px 48px}
+.testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+.tcard{background:var(--d2);border:1px solid var(--border);padding:24px;position:relative;overflow:hidden}
+.tcard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--silver),transparent)}
+.tcard-quote{font-size:13px;color:#6B7280;line-height:1.8;margin-bottom:16px;font-style:italic}
+.tcard-name{font-size:12px;font-weight:600;color:var(--text)}
+.tcard-loc{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#6B7280;margin-top:2px}
+.tcard-stars{color:#A8B4BC;font-size:12px;margin-bottom:10px;letter-spacing:2px}
+.products-section{background:var(--d0);padding:88px 48px}
+.products-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:40px}
+.pcard{background:var(--d2);border:1px solid var(--border);padding:20px;text-align:center}
+.pcard-icon{font-size:36px;margin-bottom:12px}
+.pcard-name{font-size:13px;font-weight:600;margin-bottom:6px}
+.pcard-saving{font-size:11px;color:#4caf81;letter-spacing:1px}
+.pcard-source{font-size:10px;color:#6B7280;margin-top:4px}
+@media(max-width:768px){
+  .about-section,.testimonials-section,.products-section{padding:64px 24px}
+  .about-grid{grid-template-columns:1fr;gap:32px}
+  .testimonials-grid{grid-template-columns:1fr}
+  .products-grid{grid-template-columns:1fr 1fr}
+}
+
+.footer{background:#080a0d;border-top:1px solid rgba(168,180,188,.08);padding:48px;margin-top:0}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
+.footer-brand{font-family:'Playfair Display',serif;font-size:18px;letter-spacing:4px;text-transform:uppercase;color:#A8B4BC;margin-bottom:10px}
+.footer-desc{font-size:12px;color:#6B7280;line-height:1.8;max-width:260px}
+.footer-col-title{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#A8B4BC;margin-bottom:14px;font-family:'JetBrains Mono',monospace}
+.footer-col-link{display:block;font-size:12px;color:#6B7280;text-decoration:none;margin-bottom:8px;transition:color .2s;background:none;border:none;cursor:pointer;padding:0;font-family:'Inter',sans-serif;text-align:left}
+.footer-col-link:hover{color:#A8B4BC}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;padding-top:24px;border-top:1px solid rgba(168,180,188,.06);font-size:11px;color:#6B7280;flex-wrap:wrap;gap:10px}
+@media(max-width:768px){.footer{padding:40px 24px}.footer-grid{grid-template-columns:1fr 1fr;gap:28px}}
+
+.faq-section{background:var(--d1);padding:88px 48px}
+.faq-list{max-width:680px;margin:36px auto 0}
+.faq-item{border-bottom:1px solid rgba(168,180,188,.08);overflow:hidden}
+.faq-q{width:100%;text-align:left;padding:18px 0;background:none;border:none;color:var(--text);font-family:'Inter',sans-serif;font-size:14px;font-weight:500;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.faq-q:hover{color:#A8B4BC}
+.faq-arrow{color:#A8B4BC;font-size:12px;transition:transform .3s;flex-shrink:0}
+.faq-a{font-size:13px;color:#6B7280;line-height:1.8;padding-bottom:16px;display:none}
+@media(max-width:768px){.faq-section{padding:64px 24px}}
+
+.newsletter-section{background:var(--d0);padding:72px 48px;text-align:center}
+.newsletter-box{max-width:480px;margin:0 auto}
+.newsletter-input-row{display:flex;gap:10px;margin-top:20px}
+@media(max-width:768px){.newsletter-section{padding:56px 24px}.newsletter-input-row{flex-direction:column}}
+
+.procurement-box{background:#0a0c0f;border:1px solid rgba(168,180,188,.12);padding:20px;margin-top:12px;position:relative;overflow:hidden;border-radius:4px}
+.procurement-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,#A8B4BC,transparent)}
+.procurement-title{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#A8B4BC;margin-bottom:16px;font-family:'JetBrains Mono',monospace}
+.procurement-step{display:grid;grid-template-columns:28px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.04);align-items:start}
+.procurement-step:last-child{border-bottom:none}
+.proc-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0;background:rgba(168,180,188,.1);border:1px solid rgba(168,180,188,.2);color:#A8B4BC;font-family:'JetBrains Mono',monospace}
+.proc-step-title{font-size:12px;font-weight:600;margin-bottom:4px;color:#D8DDE6}
+.proc-step-detail{font-size:11px;color:#6B7280;line-height:1.7}
+.proc-step-cost{font-size:11px;color:#A8B4BC;margin-top:4px;font-family:'JetBrains Mono',monospace}
+.proc-open-btn{display:inline-block;margin-top:8px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#D8DDE6;background:rgba(168,180,188,.08);border:1px solid rgba(168,180,188,.15);padding:5px 12px;text-decoration:none;cursor:pointer;transition:all .2s}
+.proc-open-btn:hover{background:rgba(168,180,188,.15);border-color:#A8B4BC}
+.proc-tip{margin-top:12px;padding:10px 14px;background:rgba(168,180,188,.04);border:1px solid rgba(168,180,188,.1);font-size:11px;color:#6B7280;line-height:1.7;border-radius:3px}
+.proc-total{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding:12px 14px;background:rgba(168,180,188,.06);border:1px solid rgba(168,180,188,.12)}
+.proc-loading{display:flex;align-items:center;gap:10px;font-size:12px;color:#6B7280;padding:20px 0}
+
+.pay-method-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.pay-method-card{padding:16px;border:1px solid rgba(168,180,188,.12);background:var(--d3);cursor:pointer;transition:all .25s;text-align:center;border-radius:4px}
+.pay-method-card:hover{border-color:rgba(168,180,188,.35);background:rgba(168,180,188,.04)}
+.pay-method-card.selected{border-color:#A8B4BC;background:rgba(168,180,188,.08)}
+.pay-method-card.selected::before{content:'✓ ';color:#4caf81}
+.pay-method-icon{font-size:28px;margin-bottom:8px}
+.pay-method-name{font-size:12px;font-weight:600;color:#D8DDE6;margin-bottom:3px}
+.pay-method-fee{font-size:10px;color:#6B7280;font-family:'JetBrains Mono',monospace}
+.pay-method-instr{background:var(--d3);border:1px solid rgba(168,180,188,.1);padding:14px 16px;font-size:12px;color:#6B7280;line-height:1.8;margin-top:10px;display:none;border-radius:4px}
+.pay-method-instr.show{display:block}
+.pay-method-instr strong{color:#D8DDE6;display:block;margin-bottom:6px}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">PEAK<span>SUPPLIES</span></div>
+  <div class="nav-links">
+    <a href="#hero">Home</a>
+    <a href="#ai-compare">AI Compare</a>
+    <a href="#about">About</a>
+    <a href="#faq">FAQ</a>
+    <a href="#order">Order</a>
+    <a href="#track">Track</a>
+  </div>
+  <button class="nav-btn" onclick="document.getElementById('order').scrollIntoView({behavior:'smooth'})">Get Started</button>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#hero" onclick="closeMenu()">Home</a>
+  <a href="#ai-compare" onclick="closeMenu()">AI Compare</a>
+  <a href="#about" onclick="closeMenu()">About</a>
+  <a href="#faq" onclick="closeMenu()">FAQ</a>
+  <a href="#order" onclick="closeMenu()">Order</a>
+  <a href="#track" onclick="closeMenu()">Track Order</a>
+</div>
+
+<section id="hero" class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-body">
+    <div class="badge">AI-Powered Sourcing</div>
+    <h1>Cheaper Than <em>Jumia</em><br/>Jiji &amp; Konga</h1>
+    <p class="hero-sub">AI scans 1688, DHGate, Superbuy, CSSBuy in real-time. Guarantees 20-50% savings vs local platforms while maintaining quality.</p>
+    <div class="hero-btns">
+      <button class="btn-g" onclick="document.getElementById('ai-compare').scrollIntoView({behavior:'smooth'})">AI Price Check</button>
+      <button class="btn-ghost" onclick="document.getElementById('order').scrollIntoView({behavior:'smooth'})">Place Order</button>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div><div class="stat-n">₦50M+</div><div class="stat-l">Saved</div></div>
+    <div><div class="stat-n">12K</div><div class="stat-l">Orders</div></div>
+    <div><div class="stat-n">48h</div><div class="stat-l">Avg Delivery</div></div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<section id="ai-compare" class="ai-compare">
+  <div class="sec-label">AI Estimator</div>
+  <h2 class="sec-title">Real-Time China Pricing</h2>
+  <div class="ai-estimator">
+    <div class="ai-input-group">
+      <div class="ai-inputs">
+        <input class="ai-input" id="product-name" placeholder="iPhone 15 Pro 256GB"/>
+        <input class="ai-input" id="product-qty" type="number" placeholder="Quantity" min="1" value="1"/>
+        <input class="ai-input" id="client-address" placeholder="12 Adeola Odeku St, VI Lagos"/>
+        <button class="ai-estimate-btn" onclick="runAIEstimate()">Get AI Quote</button>
+      </div>
+    </div>
+    <div class="ai-results" id="ai-results" style="display:none">
+      <span id="china-cost" style="display:none">—</span>
+      <span id="shipping-cost" style="display:none">—</span>
+      <span id="delivery-cost" style="display:none">—</span>
+      <span id="profit-margin" style="display:none">—</span>
+      <div class="ai-result-final" id="final-price">—</div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<section id="order" class="order-section">
+  <div class="sec-label">Smart Ordering</div>
+  <h2 class="sec-title">AI Order Processing</h2>
+  <div class="order-wrap">
+    <div class="order-ai-panel">
+      <button class="ai-sourcing-status" id="sourcing-status" onclick="document.getElementById('order-form').dispatchEvent(new Event('submit',{cancelable:true,bubbles:true}))" style="width:100%;text-align:left;cursor:pointer;background:var(--d3);border:1px solid var(--border);transition:all .25s;font-family:'Inter',sans-serif;color:var(--text)">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="spinner" id="sourcing-spinner" style="display:none"></div>
+          <span id="sourcing-text">🤖 Start AI Sourcing</span>
+        </div>
+      </button>
+      <div id="admin-pricing" style="display:none;background:rgba(76,175,129,.1);padding:16px;border-radius:8px;font-size:13px;color:var(--muted);line-height:1.8">
+        <strong style="color:var(--green)">Admin View:</strong><br/>
+        China: ₦285k | Total Cost: ₦338.5k<br/>Sell: ₦385k | Profit: ₦46.5k
+      </div>
+    </div>
+    <form id="order-form">
+      <div class="field">
+        <label>Full Name</label>
+        <input class="ai-input" id="order-name" placeholder="John Doe" required/>
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input class="ai-input" id="order-email" type="email" placeholder="you@example.com" required/>
+      </div>
+      <div class="field">
+        <label>Phone</label>
+        <input class="ai-input" id="order-phone" placeholder="+234 800 000 0000"/>
+      </div>
+      <div class="field">
+        <label>Items</label>
+        <div class="items-list" id="items-list">
+          <div class="item-row">
+            <input class="ai-input" placeholder="Product name"/>
+            <input class="ai-input" type="number" placeholder="1" style="width:70px" min="1" value="1"/>
+            <button type="button" class="rm-btn" onclick="removeItem(this)">×</button>
+          </div>
+        </div>
+        <button type="button" class="add-item-btn" onclick="addItem()">+ Add Item</button>
+      </div>
+      <div class="field">
+        <label>Shipping Address</label>
+        <input class="ai-input" id="order-address" placeholder="Full delivery address" required/>
+      </div>
+      <div class="agreement-box">
+        <strong style="color:#A8B4BC;display:block;margin-bottom:4px;font-size:9px;letter-spacing:1.5px;text-transform:uppercase">Terms &amp; Conditions</strong>
+        <span style="font-size:9px">1. PAYMENTS &amp; REFUNDS: All payments are final once processed. Refunds are only issued if Peak Supplies is unable to source or deliver your order. No refunds for change of mind after payment is confirmed.<br/><br/>
+        2. DELIVERY TIMEFRAMES: Estimated delivery times (3–15 business days depending on shipping tier) are estimates only. Peak Supplies is not liable for delays caused by customs, shipping carriers, or circumstances beyond our control.<br/><br/>
+        3. ORDER CONFIRMATION: Your order is only confirmed after full payment is received. Prices quoted are valid for 24 hours only.<br/><br/>
+        4. PERSONAL DATA: Your name, email, phone number and delivery address are collected solely for the purpose of processing and delivering your order. We do not sell or share your data with third parties.<br/><br/>
+        5. DISPUTES: Any disputes must be raised within 7 days of delivery. Contact us via WhatsApp or email with your order reference number. We will investigate and respond within 48 hours.<br/><br/>
+        6. PRODUCT QUALITY: All products are sourced from verified Chinese suppliers. Peak Supplies does not manufacture products and is not liable for manufacturer defects, though we will assist in resolving supplier issues.<br/><br/>
+        7. ACCURACY: You are responsible for providing accurate item descriptions, quantities and delivery addresses. Peak Supplies is not liable for errors resulting from incorrect information provided by the customer.</span>
+      </div>
+      <label class="agreement-check">
+        <input type="checkbox" id="agree-terms" required/>
+        <span>I have read and agree to the Terms &amp; Conditions above</span>
+      </label>
+      <div class="field">
+        <label>Payment Method</label>
+        <div class="pay-method-grid" id="pay-method-grid">
+          <div class="pay-method-card" data-method="paystack" onclick="selectPayMethod('paystack')">
+            <div class="pay-method-icon">💳</div>
+            <div class="pay-method-name">Paystack</div>
+            <div class="pay-method-fee">Card / Bank Transfer</div>
+          </div>
+          <div class="pay-method-card" data-method="btc" onclick="selectPayMethod('btc')">
+            <div class="pay-method-icon">🟡</div>
+            <div class="pay-method-name">Bitcoin (BTC)</div>
+            <div class="pay-method-fee">Crypto Payment</div>
+          </div>
+          <div class="pay-method-card" data-method="usdt" onclick="selectPayMethod('usdt')">
+            <div class="pay-method-icon">🪙</div>
+            <div class="pay-method-name">USDT TRC20</div>
+            <div class="pay-method-fee">Stablecoin ~$1</div>
+          </div>
+          <div class="pay-method-card" data-method="transfer" onclick="selectPayMethod('transfer')">
+            <div class="pay-method-icon">🏦</div>
+            <div class="pay-method-name">Bank Transfer</div>
+            <div class="pay-method-fee">Manual Transfer</div>
+          </div>
+        </div>
+        <div class="pay-method-instr" id="pay-instr-paystack">
+          <strong>💳 Paystack — Debit Card or Bank Transfer</strong>
+          A secure Paystack payment popup will open after you submit. Pay with any Nigerian debit card or bank transfer.
+        </div>
+        <div class="pay-method-instr" id="pay-instr-btc">
+          <strong>🟡 Bitcoin (BTC)</strong>
+          Send BTC to wallet address below. Then send your payment screenshot to WhatsApp: <a href="https://wa.me/2347048334055" target="_blank" style="color:#A8B4BC">07048334055</a> with your order reference.<br/><br/>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#A8B4BC;word-break:break-all">BTC Wallet: <span id="btc-wallet-display">Contact us on WhatsApp for wallet address</span></span>
+        </div>
+        <div class="pay-method-instr" id="pay-instr-usdt">
+          <strong>🪙 USDT TRC20</strong>
+          Send USDT (TRC20 network only) to the wallet below. Then send your payment screenshot to WhatsApp: <a href="https://wa.me/2347048334055" target="_blank" style="color:#A8B4BC">07048334055</a> with your order reference.<br/><br/>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#A8B4BC;word-break:break-all">USDT Wallet: TKNuQRFHfsaJLfwADTRgepqVXFiceAuHY1</span>
+        </div>
+        <div class="pay-method-instr" id="pay-instr-transfer">
+          <strong>🏦 Bank Transfer</strong>
+          Send to our bank account, then send your payment screenshot to WhatsApp: <a href="https://wa.me/2347048334055" target="_blank" style="color:#A8B4BC">07048334055</a> with your order reference.<br/><br/>
+          <span style="font-size:11px;color:#A8B4BC">Contact us on WhatsApp for bank account details.</span>
+        </div>
+      </div>
+      <button type="submit" class="sub-btn" id="order-submit-btn">Proceed to Payment →</button>
+      <div id="form-error" class="f-err" style="display:none"></div>
+    </form>
+  </div>
+</section>
+
+<div id="success-modal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.85);place-items:center;padding:20px">
+  <div class="success-box" style="max-width:500px;width:100%">
+    <div class="s-icon">✅</div>
+    <div class="s-title">Order Received!</div>
+    <div class="s-sub">Payment confirmed. AI sourcing started. Expected delivery: 7-14 days.</div>
+    <div class="s-ref" id="success-ref">Reference: —</div>
+    <div class="s-items"><h4>Order Summary</h4><div id="success-items"></div></div>
+    <button class="btn-g" onclick="closeSuccess();document.getElementById('track-ref').value=document.getElementById('success-ref').textContent.replace('Reference: ','');document.getElementById('track').scrollIntoView({behavior:'smooth'});trackOrder()" style="width:100%;margin-top:12px">Track My Order →</button><button class="btn-g" onclick="closeSuccess()" style="width:100%;margin-top:8px;background:transparent;border:1px solid rgba(168,180,188,.3);color:#A8B4BC">Close</button>
+    <p style="font-size:11px;color:#6B7280;margin-top:10px">Need to cancel? <a href="https://wa.me/2347048334055" target="_blank" style="color:#A8B4BC">Contact us on WhatsApp</a> immediately with your reference number.</p>
+  </div>
+</div>
+
+<a class="wa-float" href="https://wa.me/2347048334055?text=Hi Peak Supplies, I'd like to place an order." target="_blank" title="Chat on WhatsApp">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+const supabaseClient = supabase.createClient(
+  'https://lulfrntjblqiibksiwrd.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx1bGZybnRqYmxxaWlia3Npd3JkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5NjA0OTUsImV4cCI6MjA4OTUzNjQ5NX0.auVCvKzdbWXLBSs3F78hSpHl35-_ME2EZ2tUjPx-Z_s'
+);
+
+const PAYSTACK_KEY = 'pk_test_a08f1a56f949acb7198ccd5cc40ac3247d55ae08';
+
+const mockChinaPrices = {
+  'iphone 15': {price:285000,source:'1688.com'},
+  'samsung s24': {price:245000,source:'DHGate'},
+  'macbook air': {price:620000,source:'Superbuy'}
+};
+const mockCompetitorPrices = {
+  'iphone 15': 525000,
+  'samsung s24': 465000,
+  'macbook air': 920000
+};
+
+function toggleMenu(){
+  document.getElementById('mobile-menu').classList.toggle('open');
+  document.getElementById('hamburger').classList.toggle('open');
+}
+// Secret admin access via URL hash
+window.addEventListener('hashchange', function(){
+  if(window.location.hash === '#admin'){
+    document.getElementById('admin-section').style.display = 'block';
+    document.getElementById('admin-section').scrollIntoView({behavior:'smooth'});
+    history.replaceState(null,'',window.location.pathname);
+  }
+});
+window.addEventListener('load', function(){
+  if(window.location.hash === '#admin'){
+    document.getElementById('admin-section').style.display = 'block';
+    document.getElementById('admin-section').scrollIntoView({behavior:'smooth'});
+    history.replaceState(null,'',window.location.pathname);
+  }
+});
+
+function closeMenu(){
+  document.getElementById('mobile-menu').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+}
+
+async function runAIEstimate(){
+  const btn = document.querySelector('.ai-estimate-btn');
+  const results = document.getElementById('ai-results');
+  const product = document.getElementById('product-name').value.trim();
+  const qty = parseInt(document.getElementById('product-qty').value)||1;
+  if(!product){ alert('Please enter a product name.'); return; }
+  btn.classList.add('loading');
+  btn.textContent = 'AI Analyzing...';
+  results.style.display = 'block';
+  document.getElementById('final-price').innerHTML = '<div style="font-size:13px;color:#6B7280">Searching suppliers and comparing prices...</div>';
+
+  try{
+    const prompt = "You are a pricing engine for Peak Supplies Nigeria. Product: \""+product+"\" × "+qty+"\n"
+      +"STEP 1: Search ALL these platforms for the CHEAPEST price in USD for this exact product: 1688.com, Taobao, AliExpress, Alibaba, DHgate, Banggood, Superbuy, CSSBuy. Compare all results. Pick the LOWEST price from any platform that ships to Nigeria or can be forwarded. Convert to NGN at 1 USD=1620 NGN. State which platform had the cheapest price.\n"
+      +"STEP 2: Estimate shipping China→Nigeria per unit in NGN (small: 3000-5000, medium: 6000-10000, large: 12000-25000).\n"
+      +"STEP 3: totalCostPerUnit = supplierPriceNGN + shippingNGN. totalCost = totalCostPerUnit × "+qty+".\n"
+      +"STEP 4: Find real prices on jumia.com.ng and jiji.ng. lowestLocalPrice = minimum found.\n"
+      +"STEP 5: recommendedMargin = highest value in [10,15,20,25,30,35] where totalCostPerUnit*(1+M/100) < lowestLocalPrice. If none, use 10.\n"
+      +"STEP 6: finalPrice = totalCostPerUnit*(1+recommendedMargin/100) rounded to nearest 500. MUST be > totalCostPerUnit.\n"
+      +"savings = round((1 - finalPrice/lowestLocalPrice)*100).\n"
+      +"Return ONLY valid JSON: {\"supplierSource\":\"\",\"supplierPriceUSD\":0,\"supplierPriceNGN\":0,\"platformComparison\":[{\"platform\":\"\",\"priceUSD\":0,\"shipsToNigeria\":true}],\"cheapestPlatform\":\"\",\"shippingPerUnit\":0,\"totalCostPerUnit\":0,\"totalCost\":0,\"jumiaPrice\":0,\"jijiPrice\":0,\"lowestLocalPrice\":0,\"recommendedMargin\":0,\"finalPrice\":0,\"savings\":0}";
+
+    const res = await fetch("https://peak-backend-3cnc.onrender.com/api/ai",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({prompt, maxTokens:600})
+    });
+
+    if(!res.ok) throw new Error("Backend error");
+    const data = await res.json();
+    const tb = data.content?.find(b=>b.type==="text");
+    if(!tb) throw new Error("No response");
+    const ai = JSON.parse(tb.text.replace(/```json|```/g,"").trim());
+
+    // JS verification
+    if(ai.totalCostPerUnit && ai.lowestLocalPrice){
+      let bestM=10;
+      for(const m of [35,30,25,20,15,10]){
+        const p=Math.round((ai.totalCostPerUnit*(1+m/100))/500)*500;
+        if(p<ai.lowestLocalPrice){bestM=m;ai.finalPrice=p;ai.recommendedMargin=m;break;}
+      }
+      if(ai.finalPrice<=ai.totalCostPerUnit) ai.finalPrice=Math.round(ai.totalCostPerUnit*1.10/500)*500;
+      ai.savings=Math.round((1-ai.finalPrice/ai.lowestLocalPrice)*100);
+    }
+
+    // Update hidden fields (for admin)
+    document.getElementById('china-cost').textContent = '₦'+(ai.supplierPriceNGN||0).toLocaleString();
+    document.getElementById('shipping-cost').textContent = '₦'+(ai.shippingPerUnit||0).toLocaleString();
+    document.getElementById('delivery-cost').textContent = '₦'+(ai.totalCost||0).toLocaleString();
+    document.getElementById('profit-margin').textContent = (ai.recommendedMargin||0)+'%';
+
+    // Show only final price to client
+    // Build platform comparison table if available
+    var platformHtml = '';
+    if(ai.platformComparison && ai.platformComparison.length){
+      platformHtml = '<div style="margin-top:12px;background:rgba(168,180,188,.04);border:1px solid rgba(168,180,188,.1);padding:12px 14px;border-radius:4px">'
+        +'<div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#6B7280;margin-bottom:8px;font-family:JetBrains Mono,monospace">Platform Comparison</div>'
+        + ai.platformComparison.map(function(p){
+            var isCheapest = p.platform === ai.cheapestPlatform;
+            return '<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:11px">'
+              +'<span style="color:'+(isCheapest?'#4caf81':'#6B7280')+'">'+p.platform+(isCheapest?' ★':'')+'</span>'
+              +'<span style="color:'+(isCheapest?'#A8B4BC':'#6B7280')+'">$'+(p.priceUSD||0)+'</span>'
+              +(p.shipsToNigeria?'<span style="color:#4caf81;font-size:10px">Ships NG</span>':'<span style="color:#f0a500;font-size:10px">Via agent</span>')
+              +'</div>';
+          }).join('')
+        +'</div>';
+    }
+    document.getElementById('final-price').innerHTML =
+      'Your Price: <strong>₦'+Math.round(ai.finalPrice).toLocaleString()+'</strong>'
+      +' <div class="ai-savings"><span>⭐</span> '+(ai.savings||0)+'% cheaper than Jumia/Jiji</div>'
+      +'<div style="font-size:11px;color:#6B7280;margin-top:6px">Best source: <strong style="color:#A8B4BC">'+(ai.cheapestPlatform||ai.supplierSource)+'</strong> · Delivery 10-15 business days</div>'
+      + platformHtml;
+
+    btn.classList.remove('loading');
+    btn.textContent = '✅ Updated!';
+
+  }catch(e){
+    document.getElementById('final-price').innerHTML = '<div style="font-size:12px;color:#e05555">Could not fetch price. Backend may be waking up — try again in 30 seconds.</div>';
+    btn.classList.remove('loading');
+    btn.textContent = 'Retry AI Quote';
+    console.warn('AI estimate error:', e);
+  }
+}
+
+document.getElementById('order-form').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const errorDiv = document.getElementById('form-error');
+  errorDiv.style.display = 'none';
+  const status = document.getElementById('sourcing-status');
+  const spinner = document.getElementById('sourcing-spinner');
+  const statusText = document.getElementById('sourcing-text');
+  const address = document.getElementById('order-address').value.trim();
+  if(!address){ errorDiv.textContent='Please enter your delivery address.'; errorDiv.style.display='block'; return; }
+  if(!document.getElementById('agree-terms').checked){ errorDiv.textContent='Please agree to the Terms & Conditions.'; errorDiv.style.display='block'; return; }
+  spinner.style.display = 'inline-block';
+  statusText.textContent = 'AI sourcing from China...';
+  status.className = 'ai-sourcing-status ai-sourcing-loading';
+  await new Promise(r=>setTimeout(r,1500));
+  const amount = 438500*100;
+  const reference = 'PS-ORDER-'+Date.now();
+  const itemsEl = document.querySelectorAll('#items-list .item-row input:first-child');
+  const itemsList = Array.from(itemsEl).map(i=>i.value).filter(Boolean).join(', ')||'Order';
+  const clientName = document.getElementById('order-name').value;
+  const clientEmail = document.getElementById('order-email').value;
+  const clientPhone = document.getElementById('order-phone').value||'N/A';
+
+  // Handle non-Paystack payments
+  if(selectedPayMethod !== 'paystack'){
+    try{
+      await supabaseClient.from('orders').insert([{
+        ref: reference, name:clientName, email:clientEmail, phone:clientPhone,
+        status:'pending', total:amount/100, items:itemsList, address:address,
+        payment_method:selectedPayMethod, date:new Date().toLocaleDateString('en-GB'),
+        created_at:new Date().toISOString()
+      }]);
+    }catch(err){ console.warn('Supabase error:',err); }
+    // Save to localStorage
+    var orders2 = JSON.parse(localStorage.getItem('ps_orders')||'[]');
+    orders2.unshift({ref:reference,name:clientName,email:clientEmail,phone:clientPhone,status:'pending',total:amount/100,items:itemsList,address:address,paymentMethod:selectedPayMethod,date:new Date().toLocaleDateString('en-GB')});
+    localStorage.setItem('ps_orders',JSON.stringify(orders2));
+    spinner.style.display='none';
+    statusText.textContent='✅ Order submitted! Send payment proof to WhatsApp.';
+    status.className='ai-sourcing-status ai-sourcing-complete';
+    document.getElementById('success-ref').textContent='Reference: '+reference;
+    document.getElementById('success-items').innerHTML=
+      '<div class="s-row"><span>'+itemsList+'</span></div>'+
+      '<div class="s-row"><span>Total</span><strong>₦'+(amount/100).toLocaleString()+'</strong></div>'+
+      '<div class="s-row"><span>Payment</span><strong>'+selectedPayMethod.toUpperCase()+'</strong></div>';
+    setTimeout(function(){ document.getElementById('success-modal').style.display='grid'; },800);
+    return;
+  }
+
+  const handler = PaystackPop.setup({
+    key: PAYSTACK_KEY,
+    email: document.getElementById('order-email').value||'customer@peaksupplies.ng',
+    amount: amount,
+    ref: reference,
+    currency: 'NGN',
+    callback: async function(response){
+      try{
+        await supabaseClient.from('orders').insert([{
+          ref: response.reference,
+          name: clientName,
+          email: clientEmail,
+          phone: clientPhone,
+          status: 'paid',
+          total: amount/100,
+          items: itemsList,
+          address: address,
+          date: new Date().toLocaleDateString('en-GB'),
+          created_at: new Date().toISOString()
+        }]);
+      }catch(err){ console.warn('Supabase error:',err); }
+      spinner.style.display = 'none';
+      statusText.textContent = '✅ Payment confirmed. Order sourced!';
+      status.className = 'ai-sourcing-status ai-sourcing-complete';
+      document.getElementById('admin-pricing').style.display = 'block';
+      document.getElementById('success-ref').textContent = 'Reference: '+response.reference;
+      document.getElementById('success-items').innerHTML =
+        '<div class="s-row"><span>'+itemsList+'</span></div>'+
+        '<div class="s-row"><span>Total Paid</span><strong>₦'+(amount/100).toLocaleString()+'</strong></div>';
+      setTimeout(function(){ document.getElementById('success-modal').style.display='grid'; },1000);
+    },
+    onClose: function(){
+      spinner.style.display = 'none';
+      statusText.textContent = '❌ Payment cancelled';
+      status.className = 'ai-sourcing-status ai-sourcing-error';
+    }
+  });
+  handler.openIframe();
+});
+
+function addItem(){
+  const list = document.getElementById('items-list');
+  const item = document.createElement('div');
+  item.className = 'item-row';
+  item.innerHTML = '<input class="ai-input" placeholder="Product name"/><input class="ai-input" type="number" placeholder="1" style="width:70px" min="1" value="1"/><button type="button" class="rm-btn" onclick="removeItem(this)">×</button>';
+  list.appendChild(item);
+}
+function removeItem(btn){
+  const rows = document.querySelectorAll('#items-list .item-row');
+  if(rows.length>1) btn.closest('.item-row').remove();
+}
+
+function trackOrder(){
+  var ref = document.getElementById('track-ref').value.trim().toUpperCase();
+  var errEl = document.getElementById('track-err');
+  var resultEl = document.getElementById('track-result');
+  var contentEl = document.getElementById('track-content');
+  errEl.style.display = 'none';
+  resultEl.style.display = 'none';
+  if(!ref){ errEl.textContent='Please enter your order reference.'; errEl.style.display='block'; return; }
+
+  var orders = JSON.parse(localStorage.getItem('ps_orders')||'[]');
+  var order = orders.find(function(o){
+    return (o.ref||o.reference||'').toUpperCase() === ref;
+  });
+
+  if(!order){ errEl.textContent='Order not found. Please check your reference number.'; errEl.style.display='block'; return; }
+
+  var statusMap = {
+    paid:'✓ Paid',
+    approved:'✓ Approved — Being Processed',
+    pending:'⏳ Pending Payment',
+    cancelled:'✗ Cancelled'
+  };
+  var statusClass = order.status||'pending';
+  var statusText = statusMap[statusClass]||order.status;
+
+  contentEl.innerHTML =
+    '<div class="track-row"><span class="track-label">Reference</span><span class="track-val" style="color:#A8B4BC">'+(order.ref||order.reference)+'</span></div>'
+   +'<div class="track-row"><span class="track-label">Status</span><span class="track-val"><span class="track-status '+statusClass+'">'+statusText+'</span></span></div>'
+   +'<div class="track-row"><span class="track-label">Items</span><span class="track-val">'+(order.items||'—')+'</span></div>'
+   +'<div class="track-row"><span class="track-label">Delivery Address</span><span class="track-val">'+(order.address||'—')+'</span></div>'
+   +'<div class="track-row"><span class="track-label">Date Placed</span><span class="track-val">'+(order.date||'—')+'</span></div>'
+   +'<div class="track-row"><span class="track-label">Estimated Delivery</span><span class="track-val">'+(order.estimatedDelivery||'10-15 business days')+'</span></div>'
+   +(order.trackingNum?'<div class="track-row"><span class="track-label">Tracking Number</span><span class="track-val" style="color:#A8B4BC">'+order.trackingNum+'</span></div>':'')
+   +(order.carrier?'<div class="track-row"><span class="track-label">Carrier</span><span class="track-val">'+order.carrier+'</span></div>':'')
+   +'<div style="margin-top:16px;padding:12px 14px;background:rgba(168,180,188,.04);border:1px solid rgba(168,180,188,.1);font-size:12px;color:#6B7280;line-height:1.7">'
+   +'Have questions? Contact us on <a href="https://wa.me/2347048334055?text=Hi, I have a question about order '+(order.ref||order.reference||'')+'" target="_blank" style="color:#4caf81;text-decoration:none">WhatsApp</a> with your reference number.'
+   +'</div>';
+
+  resultEl.style.display = 'block';
+}
+
+function closeSuccess(){
+  document.getElementById('success-modal').style.display='none';
+}
+
+// ══════════════════════════════════════
+// ADMIN PANEL — FULL FEATURED
+// ══════════════════════════════════════
+const ADMIN_HASH_P = "a5fde32dabed4a67fd0c9ae5708f657d23ed241addf93ae88f7da4a18faca49e";
+var admTab = "orders";
+var admFilter = "all";
+var admSearch = "";
+
+async function hashPwP(pw){
+  var buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(pw));
+  return [...new Uint8Array(buf)].map(x=>x.toString(16).padStart(2,"0")).join("");
+}
+
+async function doAdminLogin(){
+  var pw = document.getElementById("adm-pw").value;
+  var hash = await hashPwP(pw);
+  if(hash === ADMIN_HASH_P){
+    document.getElementById("admin-login-wrap").style.display = "none";
+    document.getElementById("admin-dashboard").style.display = "block";
+    renderAdmDashboard();
+  } else {
+    document.getElementById("adm-pw-err").style.display = "block";
+  }
+}
+
+function getAdmOrders(){ return JSON.parse(localStorage.getItem("ps_orders")||"[]"); }
+function saveAdmOrders(orders){ localStorage.setItem("ps_orders", JSON.stringify(orders)); }
+function fmtP(n){ return "₦"+Number(n||0).toLocaleString("en-NG"); }
+function fmtD(d){ return d || new Date().toLocaleDateString("en-GB"); }
+
+function renderAdmDashboard(){
+  var orders = getAdmOrders();
+  var paid = orders.filter(function(o){ return o.status==="paid"||o.status==="approved"; });
+  var pending = orders.filter(function(o){ return o.status==="pending"; });
+  var revenue = paid.reduce(function(s,o){ return s+(o.total||o.amount||0); },0);
+  var sourcing = paid.reduce(function(s,o){ return s+(o.aiSourcingCost||0); },0);
+  var profit = revenue - sourcing;
+
+  document.getElementById("adm-stats").innerHTML =
+    '<div class="adm-stat"><div class="adm-stat-icon">📦</div><div class="adm-stat-n">'+orders.length+'</div><div class="adm-stat-l">Total Orders</div></div>'+
+    '<div class="adm-stat"><div class="adm-stat-icon">✅</div><div class="adm-stat-n">'+paid.length+'</div><div class="adm-stat-l">Paid Orders</div></div>'+
+    '<div class="adm-stat"><div class="adm-stat-icon">⏳</div><div class="adm-stat-n">'+pending.length+'</div><div class="adm-stat-l">Pending</div></div>'+
+    '<div class="adm-stat"><div class="adm-stat-icon">💰</div><div class="adm-stat-n" style="font-size:18px">'+fmtP(revenue)+'</div><div class="adm-stat-l">Revenue</div></div>'+
+    '<div class="adm-stat"><div class="adm-stat-icon">📉</div><div class="adm-stat-n" style="font-size:18px">'+fmtP(sourcing)+'</div><div class="adm-stat-l">Sourcing Cost</div></div>'+
+    '<div class="adm-stat adm-stat-profit"><div class="adm-stat-icon">🚀</div><div class="adm-stat-n" style="font-size:18px;color:#4caf81">'+fmtP(profit)+'</div><div class="adm-stat-l">Net Profit</div></div>';
+
+  // Build tabs
+  var tabsEl = document.getElementById("adm-tabs");
+  tabsEl.innerHTML = "";
+  ["orders","clients","payments","settings"].forEach(function(t){
+    var btn = document.createElement("button");
+    btn.className = "admin-tab" + (admTab===t?" active":"");
+    btn.innerHTML = {orders:"📦 Orders", clients:"👥 Clients", payments:"💳 Payments", settings:"⚙️ Settings"}[t];
+    btn.onclick = function(){
+      admTab = t;
+      tabsEl.querySelectorAll(".admin-tab").forEach(function(b){ b.classList.remove("active"); });
+      btn.classList.add("active");
+      renderAdmTab();
+    };
+    tabsEl.appendChild(btn);
+  });
+  renderAdmTab();
+}
+
+function renderAdmTab(){
+  var el = document.getElementById("adm-tab-content");
+  var orders = getAdmOrders();
+  if(admTab === "orders") renderOrdersTab(el, orders);
+  else if(admTab === "clients") renderClientsTab(el, orders);
+  else if(admTab === "payments") renderPaymentsTab(el, orders);
+  else if(admTab === "settings") renderSettingsTab(el);
+}
+
+// ── ORDERS TAB ──
+function renderOrdersTab(el, orders){
+  // Filter bar
+  var filterBtns = ["all","paid","approved","pending","cancelled"].map(function(f){
+    var active = admFilter===f ? " active" : "";
+    return '<button class="adm-filter-btn'+active+'" onclick="setAdmFilter(\''+f+'\')">'+f.charAt(0).toUpperCase()+f.slice(1)+'</button>';
+  }).join("");
+  var filterBar = '<div class="adm-toolbar">'
+    + '<input class="adm-search" id="adm-search-inp" placeholder="🔍 Search by name, ref or item…" oninput="admSearch=this.value;renderAdmTab()" value="'+admSearch+'"/>'
+    + '<div class="adm-filters">'+filterBtns+'</div>'
+    + '<button class="adm-export-btn" onclick="exportCSV()">⬇ Export CSV</button>'
+    + '</div>';
+
+  // Filter and search
+  var filtered = orders.filter(function(o){
+    var matchFilter = admFilter==="all" || o.status===admFilter;
+    var s = admSearch.toLowerCase();
+    var matchSearch = !s || (o.name||"").toLowerCase().includes(s) || (o.ref||o.reference||"").toLowerCase().includes(s) || (o.items||"").toLowerCase().includes(s);
+    return matchFilter && matchSearch;
+  });
+
+  if(!filtered.length){
+    el.innerHTML = filterBar + '<div class="adm-empty">No orders found.</div>';
+    return;
+  }
+
+  el.innerHTML = filterBar + filtered.map(function(o){
+    var isPaid = o.status==="paid"||o.status==="approved";
+    var ref = o.ref||o.reference||"—";
+    var statusColors = {paid:"paid", approved:"approved", pending:"pending", cancelled:"cancelled"};
+    var statusLabels = {paid:"✓ Paid", approved:"✓ Approved", pending:"⏳ Pending", cancelled:"✗ Cancelled"};
+    var profit = (o.total||o.amount||0) - (o.aiSourcingCost||0);
+
+    return '<div class="adm-order '+(o.status||"pending")+'" data-ref="'+ref+'">'
+      + '<div class="adm-order-top">'
+      + '<div><div class="adm-fl">Reference</div><div class="adm-fv" style="color:#A8B4BC;font-family:JetBrains Mono,monospace;font-size:11px">'+ref+'</div><div style="margin-top:4px"><span class="adm-badge '+(statusColors[o.status]||"pending")+'">'+(statusLabels[o.status]||"Pending")+'</span></div></div>'
+      + '<div><div class="adm-fl">Client</div><div class="adm-fv" style="font-weight:600">'+(o.name||"—")+'</div><div class="adm-fv" style="font-size:11px;color:#6B7280">'+(o.email||"")+'</div><div class="adm-fv" style="font-size:11px;color:#6B7280">'+(o.phone&&o.phone!=="N/A"?o.phone:"")+'</div></div>'
+      + '<div><div class="adm-fl">Items</div><div class="adm-fv" style="font-size:11px">'+(o.items||"—")+'</div></div>'
+      + '<div><div class="adm-fl">Financials</div><div class="adm-fv" style="font-family:Playfair Display,serif;font-size:18px;color:#A8B4BC">'+fmtP(o.total||o.amount)+'</div>'
+      + (o.aiSourcingCost ? '<div class="adm-profit-row">Cost: '+fmtP(o.aiSourcingCost)+' · Profit: <span>'+fmtP(profit)+'</span></div>' : '')
+      + '</div>'
+      + '<div><div class="adm-fl">Address</div><div class="adm-fv" style="font-size:11px">'+(o.address||"—")+'</div><div class="adm-fl" style="margin-top:8px">Date</div><div class="adm-fv" style="font-size:11px">'+fmtD(o.date)+'</div></div>'
+      + '</div>'
+      + '<div class="adm-order-btm">'
+      + (isPaid
+          ? '<button class="adm-btn adm-btn-approve" data-ref2="'+ref+'" onclick="admApprove(this.dataset.ref2)">▶ Approve &amp; Fulfil</button>'
+            + '<button class="adm-btn adm-btn-track" data-ref2="'+ref+'" onclick="admAddTracking(this.dataset.ref2)">📦 Add Tracking</button>'
+            + '<button class="adm-btn adm-btn-revoke" data-ref2="'+ref+'" onclick="admRevoke(this.dataset.ref2)">✗ Revoke</button>'
+          : '<span style="font-size:11px;color:#6B7280">Awaiting payment</span>')
+      + (o.phone&&o.phone!=="N/A" ? '<a class="adm-btn adm-btn-wa" href="https://wa.me/'+o.phone.replace(/[^0-9]/g,"")+'?text=Hi '+encodeURIComponent(o.name||"there")+', regarding your Peak Supplies order '+ref+'." target="_blank">💬 WhatsApp</a>' : '')
+      + (o.trackingNum ? '<span style="font-size:11px;font-family:JetBrains Mono,monospace;color:#6495ed;padding:4px 10px;background:rgba(100,149,237,.08);border:1px solid rgba(100,149,237,.2)">📦 '+o.carrier+': '+o.trackingNum+'</span>' : '')
+      + '</div>'
+      + '</div>';
+  }).join("");
+}
+
+// ── CLIENTS TAB ──
+function renderClientsTab(el, orders){
+  var unique = {};
+  orders.forEach(function(o){
+    var key = o.email||o.ref||o.reference;
+    if(!unique[key]) unique[key] = {name:o.name||"Client", email:o.email||"—", phone:o.phone||"N/A", orders:[], totalSpent:0};
+    unique[key].orders.push(o);
+    unique[key].totalSpent += (o.total||o.amount||0);
+  });
+  var clients = Object.values(unique);
+  if(!clients.length){ el.innerHTML='<div class="adm-empty">No clients yet.</div>'; return; }
+  el.innerHTML = '<div class="adm-clients-grid">'+
+    clients.map(function(cl){
+      return '<div class="adm-client-card">'
+        + '<div class="adm-client-avatar">'+((cl.name||"?")[0].toUpperCase())+'</div>'
+        + '<div class="adm-client-name">'+cl.name+'</div>'
+        + '<div class="adm-client-info">'+cl.email+'</div>'
+        + (cl.phone&&cl.phone!=="N/A"?'<div class="adm-client-info">'+cl.phone+'</div>':'')
+        + '<div class="adm-client-stats">'
+        + '<div><div style="font-family:Playfair Display,serif;font-size:18px;color:#A8B4BC">'+fmtP(cl.totalSpent)+'</div><div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#6B7280">Total Spent</div></div>'
+        + '<div><div style="font-family:Playfair Display,serif;font-size:18px;color:#A8B4BC">'+cl.orders.length+'</div><div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#6B7280">Orders</div></div>'
+        + '</div>'
+        + '<div style="display:flex;gap:6px;margin-top:12px">'
+        + '<a class="adm-btn adm-btn-wa" style="text-decoration:none;font-size:10px;padding:7px 12px" href="https://wa.me/'+(cl.phone||"").replace(/[^0-9]/g,"")+'?text=Hi '+encodeURIComponent(cl.name)+'!" target="_blank">💬 WhatsApp</a>'
+        + '<a class="adm-btn" style="background:rgba(168,180,188,.08);border:1px solid rgba(168,180,188,.15);color:#A8B4BC;text-decoration:none;font-size:10px;padding:7px 12px" href="mailto:'+cl.email+'">✉ Email</a>'
+        + '</div>'
+        + '</div>';
+    }).join("")+'</div>';
+}
+
+// ── PAYMENTS TAB ──
+function renderPaymentsTab(el, orders){
+  var paid = orders.filter(function(o){ return o.status==="paid"||o.status==="approved"; });
+  var pending = orders.filter(function(o){ return o.status==="pending"; });
+  var revenue = paid.reduce(function(s,o){return s+(o.total||o.amount||0);},0);
+  var sourcing = paid.reduce(function(s,o){return s+(o.aiSourcingCost||0);},0);
+
+  el.innerHTML = '<div class="adm-fin-grid">'
+    + '<div class="adm-fin-card"><div class="adm-fin-label">Total Revenue</div><div class="adm-fin-val">'+fmtP(revenue)+'</div></div>'
+    + '<div class="adm-fin-card"><div class="adm-fin-label">Sourcing Cost</div><div class="adm-fin-val red">'+fmtP(sourcing)+'</div></div>'
+    + '<div class="adm-fin-card"><div class="adm-fin-label">Net Profit</div><div class="adm-fin-val green">'+fmtP(revenue-sourcing)+'</div></div>'
+    + '<div class="adm-fin-card"><div class="adm-fin-label">Outstanding</div><div class="adm-fin-val gold">'+fmtP(pending.reduce(function(s,o){return s+(o.aiRecommendedCharge||0);},0))+'</div></div>'
+    + '</div>'
+    + '<div style="margin-top:22px"><div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#6B7280;margin-bottom:12px">Payment Breakdown</div>'
+    + paid.map(function(o){
+        return '<div class="adm-pay-row">'
+          + '<div style="font-family:JetBrains Mono,monospace;font-size:11px;color:#A8B4BC">'+(o.ref||o.reference||"—")+'</div>'
+          + '<div style="font-size:12px;color:#D8DDE6">'+(o.name||"Client")+'</div>'
+          + '<div style="font-size:11px;color:#6B7280">'+(o.paymentMethod||"Paystack")+'</div>'
+          + '<div style="font-family:Playfair Display,serif;font-size:16px;color:#4caf81">'+fmtP(o.total||o.amount)+'</div>'
+          + '</div>';
+      }).join("")
+    + (paid.length===0?'<div class="adm-empty">No payments recorded yet.</div>':'')
+    + '</div>'
+    + '<div style="margin-top:16px"><button class="adm-export-btn" onclick="exportCSV()">⬇ Export Payments CSV</button></div>';
+}
+
+// ── SETTINGS TAB ──
+function renderSettingsTab(el){
+  var settings = JSON.parse(localStorage.getItem("ps_adm_settings")||"{}");
+  el.innerHTML = '<div class="adm-settings-grid">'
+    + '<div class="adm-settings-card">'
+    + '<div class="adm-settings-title">📱 Business Contact</div>'
+    + '<div class="adm-field"><label>WhatsApp Number</label><input class="adm-inp" id="set-wa" value="'+(settings.whatsapp||"2347048334055")+'"/></div>'
+    + '<div class="adm-field"><label>Business Email</label><input class="adm-inp" id="set-email" value="'+(settings.email||"")+'"/></div>'
+    + '<div class="adm-field"><label>Business Name</label><input class="adm-inp" id="set-name" value="'+(settings.name||"Peak Supplies")+'"/></div>'
+    + '<button class="adm-save-btn" onclick="saveSettings()">Save Contact Info</button>'
+    + '</div>'
+    + '<div class="adm-settings-card">'
+    + '<div class="adm-settings-title">💳 Payment Methods</div>'
+    + '<div class="adm-field"><label>USDT TRC20 Wallet</label><input class="adm-inp" id="set-usdt" value="'+(settings.usdt||"TKNuQRFHfsaJLfwADTRgepqVXFiceAuHY1")+'"/></div>'
+    + '<div class="adm-field"><label>Bitcoin Wallet</label><input class="adm-inp" id="set-btc" value="'+(settings.btc||"")+'"/></div>'
+    + '<div class="adm-field"><label>Bank Account Details</label><input class="adm-inp" id="set-bank" value="'+(settings.bank||"")+'"/></div>'
+    + '<button class="adm-save-btn" onclick="saveSettings()">Save Payment Methods</button>'
+    + '</div>'
+    + '<div class="adm-settings-card">'
+    + '<div class="adm-settings-title">🔑 Security</div>'
+    + '<div class="adm-field"><label>Change Admin Password</label><input class="adm-inp" id="set-pw" type="password" placeholder="New password"/></div>'
+    + '<div class="adm-field"><label>Confirm Password</label><input class="adm-inp" id="set-pw2" type="password" placeholder="Confirm new password"/></div>'
+    + '<button class="adm-save-btn" onclick="changePassword()">Update Password</button>'
+    + '<div id="set-pw-msg" style="font-size:11px;margin-top:8px;display:none"></div>'
+    + '</div>'
+    + '</div>';
+}
+
+function saveSettings(){
+  var settings = {
+    whatsapp: document.getElementById("set-wa")?.value||"",
+    email: document.getElementById("set-email")?.value||"",
+    name: document.getElementById("set-name")?.value||"",
+    usdt: document.getElementById("set-usdt")?.value||"",
+    btc: document.getElementById("set-btc")?.value||"",
+    bank: document.getElementById("set-bank")?.value||""
+  };
+  localStorage.setItem("ps_adm_settings", JSON.stringify(settings));
+  alert("✅ Settings saved.");
+}
+
+async function changePassword(){
+  var pw = document.getElementById("set-pw")?.value;
+  var pw2 = document.getElementById("set-pw2")?.value;
+  var msg = document.getElementById("set-pw-msg");
+  if(!pw){ msg.style.display="block"; msg.style.color="#e05555"; msg.textContent="Enter a new password."; return; }
+  if(pw !== pw2){ msg.style.display="block"; msg.style.color="#e05555"; msg.textContent="Passwords don't match."; return; }
+  var hash = await hashPwP(pw);
+  localStorage.setItem("ps_adm_pw_override", hash);
+  msg.style.display="block"; msg.style.color="#4caf81"; msg.textContent="✅ Password updated.";
+}
+
+// ── ACTIONS ──
+async function admApprove(ref){
+  var orders = getAdmOrders();
+  var order = orders.find(function(o){ return o.ref===ref||o.reference===ref; });
+  if(!order) return;
+
+  // Mark as approved
+  var upd = orders.map(function(o){ return (o.ref===ref||o.reference===ref)?Object.assign({},o,{status:"approved",approvedAt:new Date().toLocaleDateString("en-GB")}):o; });
+  saveAdmOrders(upd);
+  renderAdmDashboard();
+
+  // Show procurement loader in the order card
+  var card = document.querySelector('[data-ref="'+ref+'"]');
+  if(card){
+    var btmEl = card.querySelector('.adm-order-btm');
+    if(btmEl){
+      var procBox = document.createElement('div');
+      procBox.className = 'procurement-box';
+      procBox.id = 'proc-'+ref;
+      procBox.innerHTML = '<div class="procurement-title">★ AI Procurement Workflow</div>'
+        + '<div class="proc-loading"><div class="spinner"></div> AI finding cheapest supplier, shipping &amp; delivery route…</div>';
+      card.appendChild(procBox);
+    }
+  }
+
+  // Run AI procurement
+  try{
+    var prompt = "You are the procurement engine for Peak Supplies Nigeria.\nORDER: "+(order.items||"general product")+"\nADDRESS: "+(order.address||"Nigeria")+"\n\nFirst, compare these platforms and find the cheapest quality option shippable to Nigeria (directly or via agent): 1688.com, Taobao, AliExpress, Alibaba, DHgate, Banggood, Superbuy, CSSBuy.\nThen find the CHEAPEST Nigeria-friendly way to:\n1. PAY Chinese supplier (Grey Finance virtual card, USDT Binance P2P, CSSBuy agent — rank by lowest fee for Nigerians)\n2. PURCHASE on "+supplier+" (exact search terms and what to look for in listings)\n3. SHIP China→Nigeria (compare EMS, DHgate shipping, Topship, 4PX — cheapest with tracking)\n4. CLEAR CUSTOMS Nigeria (estimated duty %, process, timeline)\n5. DELIVER last mile in Nigeria to: "+(order.address||"Nigeria")+" (compare GIG Logistics, Sendbox, Kwik Delivery — cheapest reliable option)\n\nReturn ONLY valid JSON: {\"payment\":{\"method\":\"\",\"instructions\":\"\",\"platformURL\":\"\",\"feesNGN\":0,\"time\":\"\"},\"purchase\":{\"platform\":\"\",\"instructions\":\"\",\"searchTerms\":\"\",\"platformURL\":\"\"},\"intlShipping\":{\"carrier\":\"\",\"instructions\":\"\",\"costNGN\":0,\"days\":\"\"},\"customs\":{\"instructions\":\"\",\"feesNGN\":0,\"days\":\"\"},\"lastMile\":{\"carrier\":\"\",\"instructions\":\"\",\"platformURL\":\"\",\"costNGN\":0,\"days\":\"\"},\"totalChainCostNGN\":0,\"totalDays\":\"\",\"tip\":\"\"}";
+
+    var res = await fetch("https://peak-backend-3cnc.onrender.com/api/ai",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({prompt:prompt, maxTokens:1000})
+    });
+    var data = await res.json();
+    var tb = (data.content||[]).find(function(b){ return b.type==="text"; });
+    if(!tb) throw new Error("No AI response");
+    var chain = JSON.parse(tb.text.replace(/```json|```/g,"").trim());
+
+    var steps = [
+      {n:1, emoji:"💳", title:"Pay Supplier — "+(chain.payment&&chain.payment.method||""), detail:chain.payment&&chain.payment.instructions||"", cost:chain.payment&&chain.payment.feesNGN?"Fees: ₦"+(chain.payment.feesNGN||0).toLocaleString()+" · "+(chain.payment.time||""):"", url:chain.payment&&chain.payment.platformURL||""},
+      {n:2, emoji:"🛒", title:"Purchase on "+(chain.purchase&&chain.purchase.platform||supplier), detail:chain.purchase&&chain.purchase.instructions||"", cost:chain.purchase&&chain.purchase.searchTerms?"Search: "+chain.purchase.searchTerms:"", url:chain.purchase&&chain.purchase.platformURL||""},
+      {n:3, emoji:"✈️", title:"International Shipping — "+(chain.intlShipping&&chain.intlShipping.carrier||""), detail:chain.intlShipping&&chain.intlShipping.instructions||"", cost:chain.intlShipping&&chain.intlShipping.costNGN?"₦"+(chain.intlShipping.costNGN||0).toLocaleString()+" · "+(chain.intlShipping.days||""):""},
+      {n:4, emoji:"🛃", title:"Customs Clearance", detail:chain.customs&&chain.customs.instructions||"", cost:chain.customs&&chain.customs.feesNGN?"Est. duty: ₦"+(chain.customs.feesNGN||0).toLocaleString()+" · "+(chain.customs.days||""):""},
+      {n:5, emoji:"🚚", title:"Last Mile — "+(chain.lastMile&&chain.lastMile.carrier||""), detail:chain.lastMile&&chain.lastMile.instructions||"", cost:chain.lastMile&&chain.lastMile.costNGN?"₦"+(chain.lastMile.costNGN||0).toLocaleString()+" · "+(chain.lastMile.days||""):"", url:chain.lastMile&&chain.lastMile.platformURL||""},
+    ];
+
+    var stepsHtml = steps.map(function(s){
+      return '<div class="procurement-step">'
+        +'<div class="proc-num">'+s.n+'</div>'
+        +'<div><div class="proc-step-title">'+s.emoji+' '+s.title+'</div>'
+        +'<div class="proc-step-detail">'+(s.detail||"")+'</div>'
+        +(s.cost?'<div class="proc-step-cost">'+s.cost+'</div>':"")
+        +(s.url?'<a class="proc-open-btn" href="'+s.url+'" target="_blank">Open Platform →</a>':"")
+        +'</div></div>';
+    }).join("");
+
+    var procEl = document.getElementById('proc-'+ref);
+    if(procEl){
+      procEl.innerHTML = '<div class="procurement-title">★ AI Procurement Workflow — Generated</div>'
+        + stepsHtml
+        + (chain.tip?'<div class="proc-tip">💡 '+chain.tip+'</div>':"")
+        + '<div class="proc-total"><span style="font-size:11px;color:#6B7280">Total Logistics Cost</span><span style="font-family:Playfair Display,serif;font-size:18px;color:#A8B4BC">₦'+(chain.totalChainCostNGN||0).toLocaleString()+'</span></div>'
+        + (chain.totalDays?'<div style="font-size:11px;color:#6B7280;margin-top:8px">⏱ Estimated total time: <strong style="color:#D8DDE6">'+chain.totalDays+'</strong></div>':"");
+    }
+
+    // Save workflow to order
+    var withWorkflow = getAdmOrders().map(function(o){
+      return (o.ref===ref||o.reference===ref)?Object.assign({},o,{workflow:chain}):o;
+    });
+    saveAdmOrders(withWorkflow);
+
+  }catch(e){
+    var procEl2 = document.getElementById('proc-'+ref);
+    if(procEl2){
+      procEl2.innerHTML = '<div class="procurement-title">★ AI Procurement Workflow</div>'
+        +'<div style="font-size:12px;color:#6B7280;padding:12px 0">Could not generate workflow — backend may be starting up. '
+        +'<button onclick="admApprove(this.dataset.r)" data-r="'+ref+'" style="color:#A8B4BC;background:none;border:none;cursor:pointer;font-size:12px;text-decoration:underline">Try again</button></div>';
+    }
+    console.warn("Procurement error:", e);
+  }
+}
+
+function admRevoke(ref){
+  if(!confirm("Cancel order "+ref+"? This cannot be undone.")) return;
+  var orders = getAdmOrders();
+  var upd = orders.map(function(o){ return (o.ref===ref||o.reference===ref)?Object.assign({},o,{status:"cancelled"}):o; });
+  saveAdmOrders(upd);
+  renderAdmDashboard();
+}
+
+function admAddTracking(ref){
+  var carrier = prompt("Carrier name (e.g. DHL, GIG Logistics):");
+  if(!carrier) return;
+  var trackNum = prompt("Tracking number:");
+  if(!trackNum) return;
+  var orders = getAdmOrders();
+  var upd = orders.map(function(o){
+    return (o.ref===ref||o.reference===ref)?Object.assign({},o,{carrier:carrier,trackingNum:trackNum,status:"approved"}):o;
+  });
+  saveAdmOrders(upd);
+  renderAdmDashboard();
+  alert("✅ Tracking added. Client can now track order "+ref+".");
+}
+
+function exportCSV(){
+  var orders = getAdmOrders();
+  if(!orders.length){ alert("No orders to export."); return; }
+  var rows = [["Reference","Name","Email","Phone","Items","Address","Amount","Sourcing Cost","Profit","Status","Date","Payment Method","Tracking"]];
+  orders.forEach(function(o){
+    var profit = (o.total||o.amount||0)-(o.aiSourcingCost||0);
+    rows.push([o.ref||o.reference,o.name,o.email,o.phone,o.items,o.address,o.total||o.amount,o.aiSourcingCost||0,profit,o.status,o.date,o.paymentMethod||"",o.trackingNum||""]);
+  });
+  var csv = rows.map(function(r){ return r.map(function(v){ return '"'+(v||"").toString().replace(/"/g,'""')+'"'; }).join(","); }).join("\n");
+  var blob = new Blob([csv], {type:"text/csv"});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement("a");
+  a.href = url; a.download = "peak-supplies-orders-"+new Date().toLocaleDateString("en-GB").replace(/\//g,"-")+".csv";
+  a.click(); URL.revokeObjectURL(url);
+}
+
+</script>
+
+<div class="rule"></div>
+
+<!-- ABOUT -->
+<section id="about" class="about-section">
+  <div class="sec-label">Who We Are</div>
+  <h2 class="sec-title">Built for Nigerian Buyers</h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>Peak Supplies is a Lagos-based AI-powered sourcing and dropshipping service. We source products directly from verified Chinese manufacturers on 1688, DHgate, Superbuy and CSSBuy — cutting out the middlemen that make Jumia and Konga so expensive.</p>
+      <p>Our AI compares thousands of suppliers in real-time, calculates the exact landed cost including customs and delivery, and guarantees you always pay less than local platforms.</p>
+      <p>We handle everything — payment to supplier, international shipping, customs clearance and last-mile delivery to your door anywhere in Nigeria.</p>
+      <div class="about-stats">
+        <div class="about-stat"><div class="about-stat-n">20–50%</div><div class="about-stat-l">Average Savings</div></div>
+        <div class="about-stat"><div class="about-stat-n">6hrs</div><div class="about-stat-l">Avg Processing Time</div></div>
+        <div class="about-stat"><div class="about-stat-n">10–15</div><div class="about-stat-l">Days Delivery</div></div>
+        <div class="about-stat"><div class="about-stat-n">0%</div><div class="about-stat-l">Hidden Fees</div></div>
+      </div>
+    </div>
+    <div class="about-features">
+      <div class="about-feat"><div class="about-feat-icon">🤖</div><div><div class="about-feat-title">Real-Time AI Pricing</div><div class="about-feat-text">Our AI searches live supplier prices across 1688, DHgate and Superbuy every time you request a quote — no cached or outdated prices.</div></div></div>
+      <div class="about-feat"><div class="about-feat-icon">🔒</div><div><div class="about-feat-title">Secure Payments</div><div class="about-feat-text">Pay securely via Paystack, USDT, BTC or bank transfer. All transactions are verified and saved to our secure database.</div></div></div>
+      <div class="about-feat"><div class="about-feat-icon">📦</div><div><div class="about-feat-title">Door-to-Door Delivery</div><div class="about-feat-text">We handle international shipping, customs clearance and last-mile delivery via GIG Logistics, Sendbox or Kwik Delivery.</div></div></div>
+      <div class="about-feat"><div class="about-feat-icon">💬</div><div><div class="about-feat-title">WhatsApp Support</div><div class="about-feat-text">Dedicated WhatsApp support throughout your order — from placement to delivery. Real humans, fast responses.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- PRODUCTS WE SOURCE -->
+<section class="products-section">
+  <div class="sec-label">What We Source</div>
+  <h2 class="sec-title">Popular Categories</h2>
+  <div class="products-grid">
+    <div class="pcard"><div class="pcard-icon">📱</div><div class="pcard-name">Phones & Tablets</div><div class="pcard-saving">Up to 45% cheaper</div><div class="pcard-source">1688 · DHgate</div></div>
+    <div class="pcard"><div class="pcard-icon">💻</div><div class="pcard-name">Laptops & PCs</div><div class="pcard-saving">Up to 40% cheaper</div><div class="pcard-source">Superbuy · 1688</div></div>
+    <div class="pcard"><div class="pcard-icon">🚗</div><div class="pcard-name">Car Parts & Accessories</div><div class="pcard-saving">Up to 50% cheaper</div><div class="pcard-source">DHgate · 1688</div></div>
+    <div class="pcard"><div class="pcard-icon">👗</div><div class="pcard-name">Fashion & Clothing</div><div class="pcard-saving">Up to 60% cheaper</div><div class="pcard-source">Superbuy · CSSBuy</div></div>
+    <div class="pcard"><div class="pcard-icon">🏠</div><div class="pcard-name">Home & Kitchen</div><div class="pcard-saving">Up to 55% cheaper</div><div class="pcard-source">1688 · AliExpress</div></div>
+    <div class="pcard"><div class="pcard-icon">⌚</div><div class="pcard-name">Watches & Jewellery</div><div class="pcard-saving">Up to 65% cheaper</div><div class="pcard-source">DHgate · Superbuy</div></div>
+    <div class="pcard"><div class="pcard-icon">🎮</div><div class="pcard-name">Gaming & Electronics</div><div class="pcard-saving">Up to 42% cheaper</div><div class="pcard-source">1688 · DHgate</div></div>
+    <div class="pcard"><div class="pcard-icon">🛒</div><div class="pcard-name">Anything Else</div><div class="pcard-saving">Just ask us</div><div class="pcard-source">We source anything</div></div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section">
+  <div class="sec-label">Client Reviews</div>
+  <h2 class="sec-title">What Our Clients Say</h2>
+  <div class="testimonials-grid">
+    <div class="tcard">
+      <div class="tcard-stars">★★★★★</div>
+      <div class="tcard-quote">"Ordered an iPhone 15 Pro Max. They beat Slot's price by ₦87,000. Delivered in 9 days to Ibadan. Will use again."</div>
+      <div class="tcard-name">Emeka O.</div>
+      <div class="tcard-loc">Ibadan, Oyo State</div>
+    </div>
+    <div class="tcard">
+      <div class="tcard-stars">★★★★★</div>
+      <div class="tcard-quote">"Got car parts for my Honda CRV at almost half the Jiji price. The AI found the exact part. Very impressed."</div>
+      <div class="tcard-name">Fatima A.</div>
+      <div class="tcard-loc">Abuja, FCT</div>
+    </div>
+    <div class="tcard">
+      <div class="tcard-stars">★★★★★</div>
+      <div class="tcard-quote">"Fast, professional and cheaper than everywhere I checked. The WhatsApp updates kept me calm throughout."</div>
+      <div class="tcard-name">Chidi N.</div>
+      <div class="tcard-loc">Port Harcourt, Rivers State</div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<div class="rule"></div>
+
+<!-- FAQ -->
+<section id="faq" class="faq-section">
+  <div class="sec-label">FAQ</div>
+  <h2 class="sec-title">Common Questions</h2>
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">How long does delivery take? <span class="faq-arrow">▼</span></button>
+      <div class="faq-a">Standard shipping takes 10–15 business days. Express takes 5–8 days and Exclusive takes 3–5 days. These are estimates and may vary due to customs or carrier delays.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">How do I pay? <span class="faq-arrow">▼</span></button>
+      <div class="faq-a">We accept Paystack (debit card or bank transfer) and USDT TRC20 crypto. More payment methods coming soon. Payment is made after we confirm your order price.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Can I order anything from China? <span class="faq-arrow">▼</span></button>
+      <div class="faq-a">Yes — we source phones, laptops, car parts, fashion, electronics, home goods and more. If it exists on 1688, DHgate or Superbuy, we can get it for you.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">What if my item arrives damaged? <span class="faq-arrow">▼</span></button>
+      <div class="faq-a">Contact us via WhatsApp within 7 days of delivery with photos. We will investigate with the supplier and work to resolve the issue as quickly as possible.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">How much cheaper is it vs Jumia? <span class="faq-arrow">▼</span></button>
+      <div class="faq-a">Typically 20–50% cheaper depending on the product. Our AI compares real-time prices from multiple Chinese suppliers against Jumia, Jiji and Konga to guarantee you get the best deal.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">How do I track my order? <span class="faq-arrow">▼</span></button>
+      <div class="faq-a">Once your item is shipped, we'll send you a tracking number via WhatsApp and email. You can also use the Track Order section on this page with your order reference.</div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- TRACK ORDER -->
+<section id="track" class="track-section">
+  <div class="sec-label">Order Tracking</div>
+  <h2 class="sec-title">Track Your Order</h2>
+  <div class="track-box">
+    <div class="track-input-row">
+      <input class="ai-input" id="track-ref" placeholder="Enter order reference e.g. PS-ORDER-123456" style="flex:1"/>
+      <button class="btn-g" onclick="trackOrder()" style="white-space:nowrap">Track →</button>
+    </div>
+    <div class="track-err" id="track-err">Order not found. Please check your reference number.</div>
+    <div class="track-result" id="track-result">
+      <div style="font-family:'Playfair Display',serif;font-size:20px;margin-bottom:16px;color:var(--silver)">Order Details</div>
+      <div id="track-content"></div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Peak Supplies</div>
+      <p class="footer-desc">AI-powered sourcing from China. We find the cheapest verified suppliers, handle shipping, customs and delivery — so you pay less than Jumia every time.</p>
+      <div style="display:flex;gap:12px;margin-top:16px">
+        <a href="https://wa.me/2347048334055" target="_blank" style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#4caf81;text-decoration:none;border:1px solid rgba(76,175,129,.25);padding:6px 14px">💬 WhatsApp</a>
+        <a href="https://tiktok.com/@mrgoodluck" target="_blank" style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#A8B4BC;text-decoration:none;border:1px solid rgba(168,180,188,.2);padding:6px 14px">TikTok</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Quick Links</div>
+      <a class="footer-col-link" href="#hero">Home</a>
+      <a class="footer-col-link" href="#ai-compare">AI Price Check</a>
+      <a class="footer-col-link" href="#order">Place Order</a>
+      <a class="footer-col-link" href="#track">Track Order</a>
+      <a class="footer-col-link" href="#about">About Us</a>
+    </div>
+    <div>
+      <div class="footer-col-title">We Source From</div>
+      <span class="footer-col-link">1688.com</span>
+      <span class="footer-col-link">DHgate</span>
+      <span class="footer-col-link">Superbuy</span>
+      <span class="footer-col-link">CSSBuy</span>
+      <span class="footer-col-link">AliExpress</span>
+    </div>
+    <div>
+      <div class="footer-col-title">Contact</div>
+      <a class="footer-col-link" href="https://wa.me/2347048334055" target="_blank">WhatsApp: 07048334055</a>
+      <span class="footer-col-link">Lagos, Nigeria</span>
+      <span class="footer-col-link" style="margin-top:16px;display:block">
+        <button onclick="document.getElementById('admin-section').style.display='block';document.getElementById('admin-section').scrollIntoView({behavior:'smooth'})" style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#3a3f48;background:none;border:none;cursor:pointer;padding:0;font-family:'Inter',sans-serif">Admin</button>
+      </span>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Peak Supplies. All rights reserved.</span>
+    <span>Powered by AI · Delivered to Your Door</span>
+  </div>
+</footer>
+
+<div class="rule"></div>
+
+<!-- NEWSLETTER -->
+<section class="newsletter-section">
+  <div class="newsletter-box">
+    <div class="sec-label" style="justify-content:center">Stay Updated</div>
+    <h2 class="sec-title" style="font-size:clamp(24px,3vw,38px)">Get Price Alerts &amp; Deals</h2>
+    <p style="font-size:13px;color:#6B7280;margin-top:10px;line-height:1.8">Drop your WhatsApp number and we'll send you price drops, sourcing tips and exclusive deals.</p>
+    <div class="newsletter-input-row">
+      <input class="ai-input" id="nl-phone" placeholder="+234 800 000 0000" style="flex:1"/>
+      <button class="btn-g" onclick="subscribeNewsletter()" style="white-space:nowrap">Notify Me →</button>
+    </div>
+    <div id="nl-msg" style="font-size:12px;margin-top:10px;display:none"></div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ADMIN PANEL -->
+<div id="admin-section" class="admin-section" style="display:none">
+  <div id="admin-login-wrap">
+    <div class="admin-login-box">
+      <div class="adm-login-title">Admin Panel</div>
+      <div class="adm-login-sub">Peak Supplies — Secure Access</div>
+      <input class="ai-input" id="adm-pw" type="password" placeholder="Admin password" style="margin-bottom:12px" onkeydown="if(event.key==='Enter')doAdminLogin()"/>
+      <div id="adm-pw-err" style="font-size:12px;color:#e05555;margin-bottom:10px;display:none">Incorrect password.</div>
+      <div style="display:flex;gap:10px">
+        <button class="sub-btn" style="margin-top:0;flex:1" onclick="doAdminLogin()">Login →</button>
+        <button style="padding:14px 18px;background:transparent;border:1px solid rgba(168,180,188,.2);color:#6B7280;font-family:'Inter',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer" onclick="document.getElementById('admin-section').style.display='none'">Back</button>
+      </div>
+    </div>
+  </div>
+  <div id="admin-dashboard" style="display:none">
+    <div class="adm-header">
+      <div>
+        <div class="adm-header-title">Admin Dashboard</div>
+        <div class="adm-header-sub">Peak Supplies — Business Overview</div>
+      </div>
+      <button class="adm-exit-btn" onclick="document.getElementById('admin-section').style.display='none'">✕ Exit</button>
+    </div>
+    <div id="adm-stats" class="adm-stats-grid"></div>
+    <div class="admin-tabs" id="adm-tabs"></div>
+    <div id="adm-tab-content"></div>
+  </div>
+</div>
+
+</body>
+</html>
